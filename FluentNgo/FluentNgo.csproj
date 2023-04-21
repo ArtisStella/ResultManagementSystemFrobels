@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\MainDatabase.db" />
+    <None Remove="Resources\books-duotone.png" />
+    <None Remove="Resources\chalkboard-teacher-duotone.png" />
+    <None Remove="Resources\exam-duotone.png" />
+    <None Remove="Resources\graduation-cap-duotone.png" />
+    <None Remove="Resources\Logo.png" />
+    <None Remove="Resources\pen-duotone.png" />
+    <None Remove="Resources\scroll-duotone.png" />
+    <None Remove="Resources\student-duotone.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.116" />
+    <PackageReference Include="WPF-UI" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\MainDatabase.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\books-duotone.png" />
+    <Resource Include="Resources\chalkboard-teacher-duotone.png" />
+    <Resource Include="Resources\exam-duotone.png" />
+    <Resource Include="Resources\graduation-cap-duotone.png" />
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\pen-duotone.png" />
+    <Resource Include="Resources\scroll-duotone.png" />
+    <Resource Include="Resources\student-duotone.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Pages\MarksView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\ExamView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\RemarkView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\StudentView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Pages\MarksView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\Pages\ExamView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\Pages\RemarkView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\Pages\StudentView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>
