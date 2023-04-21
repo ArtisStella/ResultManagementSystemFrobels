@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using md = MaterialDesignThemes.Wpf;
+using FluentNgo.Controls;
 
 namespace FluentNgo.Views.Pages;
 
@@ -44,12 +45,19 @@ public partial class MarksView
 
         foreach (ExamSubjects subject in subjects)
         {
-            col = new DataGridTextColumn() { Header = subject.SubjectName, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding(subject.SubjectName) };
-            MarksDG.Columns.Add(col);
+            //col = new DataGridTextColumn() { Header = subject.SubjectName, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding(subject.SubjectName) };
+            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName, subject.SubjectName, 100);
+            MarksDG.Columns.Add(subCol);
         }
     }
+
     private void Student_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
+    }
+
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show("TODO");
     }
 }

@@ -69,9 +69,9 @@ namespace FluentNgo.ViewModels
 
         }
 
-        public void SaveExamSubjects()
+        public bool SaveExamSubjects()
         {
-            ExamSubjects.UpdateExamSubjects(ExamSubjectsList.ToList());
+            return ExamSubjects.UpdateExamSubjects(ExamSubjectsList.ToList());
         }
     }
 }

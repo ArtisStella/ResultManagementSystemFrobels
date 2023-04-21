@@ -32,15 +32,11 @@ namespace FluentNgo.ViewModels
 
         public List<Exam> ExamList { get; set; }
         public List<Subject> Subjects { get; set; }
-        public int Value { get; set; }
+        
         public MarksViewModel()
         {
             ExamList = Exam.ExamGetAll();
             MarksTable = new DataTable();
-            MarksTable.Columns.Add(new DataColumn() { ColumnName = "Test" });
-            Value = 50;
-            MarksTable.Rows.Add(new object[] { Value });
-            MarksTable.Rows.Add(new object[] { Value+10 });
         }
 
         public void FillMarksTable(int examId, List<string> columnNames)

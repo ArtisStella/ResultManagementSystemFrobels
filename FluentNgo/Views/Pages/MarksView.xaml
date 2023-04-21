@@ -62,7 +62,8 @@
                         <ui:Button  Height="32"
                                     Icon="Save16"
                                     Padding="8 4"
-                                    Content="Save"/>
+                                    Content="Save"
+                                    Click="SaveButton_Click"/>
                     </StackPanel>
 
 
@@ -85,14 +86,9 @@
                     </DataGrid.CellStyle>
 
                     <DataGrid.Columns>
-                        <lControls:DataGridNumericColumn Header="Test" 
-                                                         CanUserResize="False" 
-                                                         BindingPath="Test" 
-                                                         MaxValue="100"
-                                                         Width="Auto" />
                         <DataGridTextColumn Header="Select Exam"
                                             CanUserResize="False"
-                                            Width="Auto"/>
+                                            Width="*"/>
 
                     </DataGrid.Columns>
                 </DataGrid>
