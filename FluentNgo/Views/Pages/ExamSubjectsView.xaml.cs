@@ -85,7 +85,18 @@ namespace FluentNgo.Views.Pages
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            ExamSubjectsVM.SaveExamSubjects();
+            string message = "Something went wrong!";
+
+            if (ExamSubjectsVM.SaveExamSubjects()) message = "Succesfully saved!";
+
+            FeedbackSB.MessageQueue?.Enqueue(
+                message,
+                null,
+                null,
+                null,
+                false,
+                true,
+                TimeSpan.FromSeconds(2));
         }
     }
 }
