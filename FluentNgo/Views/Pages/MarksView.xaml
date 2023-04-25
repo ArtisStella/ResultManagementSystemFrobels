@@ -74,14 +74,15 @@
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
                           CanUserReorderColumns="False"
-                          SelectionUnit="FullRow"
-                          IsReadOnly="True"
+                          KeyboardNavigation.TabNavigation="Cycle"
                           ItemsSource="{Binding MarksTable}">
 
                     <DataGrid.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
                             <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="IsTabStop" Value="False" />
+                            <Setter Property="Focusable" Value="False" />
                         </Style>
                     </DataGrid.CellStyle>
 

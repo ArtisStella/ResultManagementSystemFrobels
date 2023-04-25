@@ -15,6 +15,9 @@ namespace FluentNgo.Views.Pages;
 public partial class MarksView
 {
     MarksViewModel MarksVM;
+    public int ExamId { get; set; }
+
+
     public MarksView()
     {
         InitializeComponent();
@@ -24,23 +27,24 @@ public partial class MarksView
     private void Exam_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         int examId = (((ComboBox)sender).SelectedItem as Exam).ExamId;
-        
-        FillTableColumns(examId);
+        ExamId = examId;
+
+        FillTableColumns();
 
         List<string> columnNames = MarksDG.Columns.Cast<DataGridColumn>().Select(column => (string)column.Header).ToList();
 
-        MarksVM.FillMarksTable(examId, columnNames);
+        MarksVM.FillMarksTable(ExamId, columnNames);
     }
 
 
-    private void FillTableColumns(int examId)
+    private void FillTableColumns()
     {
-        List<ExamSubjects> subjects = ExamSubjects.ExamSubjectGetAllByExamId(examId);
+        List<ExamSubjects> subjects = MarksVM.GetExamSubjects(ExamId);
         MarksDG.Columns.Clear();
 
-        DataGridTextColumn col = new DataGridTextColumn() { Header = "GR No", CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding("GR No") };
+        DataGridTextColumn col = new DataGridTextColumn() { Header = "GR No", IsReadOnly = true, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding("GR No") };
         MarksDG.Columns.Add(col);
-        col = new DataGridTextColumn() { Header = "Student Name", CanUserResize = false, Width = new DataGridLength(1, DataGridLengthUnitType.Star), Binding = new Binding("Student Name") };
+        col = new DataGridTextColumn() { Header = "Student Name", IsReadOnly = true, CanUserResize = false, Width = new DataGridLength(1, DataGridLengthUnitType.Star), Binding = new Binding("Student Name") };
         MarksDG.Columns.Add(col);
 
         foreach (ExamSubjects subject in subjects)
@@ -58,6 +62,6 @@ public partial class MarksView
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show("TODO");
+        MarksVM.SaveMarks(ExamId);
     }
 }

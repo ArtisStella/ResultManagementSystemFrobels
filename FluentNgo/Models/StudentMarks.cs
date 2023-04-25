@@ -39,5 +39,27 @@ namespace FluentNgo.Models
                 Connection.Close();
             }
         }
+
+        public static bool StudentMarksSave(List<StudentMark> marks)
+        {
+            var Connection = new SQLiteConnection(App.ConnectionString);
+            Connection.Open();
+            try
+            {
+                string queryDelete = "DELETE FROM StudentMark WHERE ExamId = @Id";
+                string queryInsert = "INSERT INTO StudentMark (ExamId, StudentId, SubjectId, Marks) VALUES (@ExamId, @StudentId, @SubjectId, @Marks)";
+                Connection.Execute(queryDelete, new { Id = marks[0].ExamId });
+                Connection.Execute(queryInsert, marks);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
     }
 }
