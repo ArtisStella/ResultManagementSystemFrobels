@@ -38,6 +38,27 @@ namespace FluentNgo.Models
             }
         }
 
+        public static Student StudentGetById(int StudentId)
+        {
+            var Connection = new SQLiteConnection(App.ConnectionString);
+            Connection.Open();
+            try
+            {
+                var output = Connection.QuerySingle<Student>("SELECT * FROM Students WHERE StudentId = @StudentId", new { StudentId } );
+
+                return output;
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(ex.ToString());
+                return new Student();
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
         public bool StudentSave()
         {
             var Connection = new SQLiteConnection(App.ConnectionString);
