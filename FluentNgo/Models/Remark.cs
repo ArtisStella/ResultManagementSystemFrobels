@@ -13,7 +13,7 @@ namespace FluentNgo.Models
         public int RemarkId { get; set; }
         public string? Remarks { get; set; }
         public string? Category { get; set; }
-        public string? Sub_Category { get; set; }
+        public string? SubCategory { get; set; }
 
 
 

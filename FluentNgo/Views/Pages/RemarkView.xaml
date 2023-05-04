@@ -8,6 +8,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:viewModel="clr-namespace:FluentNgo.ViewModels"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:components="clr-namespace:FluentNgo.Views.Components"
+
     Title="RemarkView"
     mc:Ignorable="d">
 
@@ -31,77 +32,85 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-
-                <!--HEADER-->
-
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+                    <StackPanel 
+                        Grid.Column="0"
+                        Orientation="Horizontal">
 
-
-                    <!--SEARCH BAR-->
-
-                    <!--Add a search bar here--><!--
-                    <ui:TextBox Grid.Column="0"
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                x:Name="RemarksClassDD"
+                                HorizontalAlignment="Center"
+                                Foreground="#FFFFFF"
                                 Margin="16"
-                                x:Name="SearchBox"
-                                PlaceholderText="Search"
-                                HorizontalAlignment="Left"
-                                Icon="Search20"
-                                MaxWidth="240"
-                                MinWidth="240"
-                                TextChanged="SearchBox_TextChanged"/>-->
+                                materialDesign:HintAssist.Hint="Class"
+                                ItemsSource="{Binding StudentClass}"
+                                MaxWidth="200"
+                                MinWidth="200"
+                                SelectionChanged="RemarksClassDD_SelectionChanged"
+                                IsEnabled="True"/>
+
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                x:Name="RemarksSectionDD"
+                                HorizontalAlignment="Right"
+                                Foreground="#FFFFFF"
+                                Margin="16"
+                                materialDesign:HintAssist.Hint="Section"
+                                ItemsSource="{Binding StudentSection}"
+                                MaxWidth="200"
+                                MinWidth="200"
+                                SelectionChanged="RemarksSectionDD_SelectionChanged"
+                                IsEnabled="False"/>
+                        
+                        
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                            x:Name="StudentDD"
+                            HorizontalAlignment="Left"
+                            Foreground="#FFFFFF"
+                            Margin="12"
+                            materialDesign:HintAssist.Hint="Gr No"
+                            ItemsSource="{Binding StudentList}"
+                            MaxWidth="150"
+                            MinWidth="150"
+                            SelectionChanged="StudentDD_SelectionChanged"
+                            DisplayMemberPath="GRNo"
+                            SelectedValuePath="StudentId"
+                            IsEnabled="False"/>
+
+                    </StackPanel>
 
 
-                    <!--BUTTONS--><!--
+                    
+
+
+
+
                     <StackPanel Margin="16 0" Grid.Column="1" Orientation="Horizontal">
-                        <ui:Button  Height="32" Width="32"
-                                    Icon="Add16"
-                                    Padding="0" Click="AddButton_Click"/>
+                        <ui:Button  Height="32"
+                                    Icon="Save16"
+                                    Padding="8 4"
+                                    Content="Save"
+                                    Click="SaveButton_Click"/>
+                    </StackPanel>
 
-                        <ui:Button x:Name="RemoveButton" 
-                                Height="32" Width="32" 
-                                Margin="8 0 0 0" Padding="0" 
-                                Icon="Delete16"
-                                Click="RemoveButton_Click"
-                                IsEnabled="{Binding AnyRowSelected}" />
-
-                        <ui:Button x:Name="EditButton" 
-                                Height="32" Width="32" 
-                                Margin="8 0 0 0" Padding="0"
-                                Icon="Edit16"
-                                Click="EditButton_Click"
-                                IsEnabled="{Binding AnyRowSelected}" />
-
-                        <ui:Button x:Name="RefreshButton" 
-                                Height="32" Width="32" 
-                                Margin="8 0 0 0" Padding="0"
-                                Icon="ArrowClockwise16"
-                                Click="RefreshButton_Click"
-                                IsEnabled="True" />
-                    </StackPanel>-->
-
-                    <TextBlock Text="Header" />
                 </Grid>
 
                 <!--Content Grid-->
                 <ScrollViewer Grid.Row="1" Height="auto">
-                    <components:SmartGrid Rows="{ Binding RowCount }">
-                        <components:SmartGrid.ColumnDefinitions>
+
+                    <Grid x:Name ="RemarksDG" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0"/>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="100" />
-                        </components:SmartGrid.ColumnDefinitions>
-                        
-                        <!-- Add your UI elements here -->
-                        <TextBlock Text="Hello" Grid.Row="0" Grid.Column="0" />
-                        <TextBlock Text="World" Grid.Row="0" Grid.Column="1" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
 
-                        <TextBlock Text="Hello" Grid.Row="1" Grid.Column="0" />
-                        <TextBlock Text="World" Grid.Row="1" Grid.Column="1" />
-                    </components:SmartGrid>
                 </ScrollViewer>
+
             </Grid>
         </ui:Card>
     </Grid>
