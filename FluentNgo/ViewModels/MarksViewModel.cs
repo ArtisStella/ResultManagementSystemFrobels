@@ -1,17 +1,9 @@
 ﻿using FluentNgo.Core;
 using FluentNgo.Models;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Xml.Linq;
 
 namespace FluentNgo.ViewModels
 {
@@ -34,14 +26,18 @@ namespace FluentNgo.ViewModels
         public List<ExamSubjects> Subjects { get; set; }
         public List<Student> Students { get; set; }
         public List<StudentMark> StudentMarks { get; set; }
+        public List<string> StudentClass { get; set; } 
+        public List<string> StudentSection { get; set; }
 
 
         public MarksViewModel()
         {
             ExamList = Exam.ExamGetAll();
             MarksTable = new DataTable();
-        }
+            Students = Student.StudentGetAll();
 
+            StudentClass = Students.Select(x => x.ClassName).Distinct().ToList();
+        }
 
         public List<ExamSubjects> GetExamSubjects(int examId)
         {
@@ -49,11 +45,11 @@ namespace FluentNgo.ViewModels
             return Subjects;
         }
 
-
-        public void FillMarksTable(int examId, List<string> columnNames)
+        public void FillMarksTable(int examId, List<string> columnNames,string studentClass, string studentSection)
         {
             List<StudentMark> marks = StudentMark.StudentMarksGetAllByExamId(examId);
-            Students = Student.StudentGetAll().Where(stud => stud.GRNo != 0).ToList();
+            List<Student> students = Student.StudentGetAll().Where(s => s.ClassName == studentClass && s.Section == studentSection).ToList();
+
 
             var newTable = new DataTable();
 
@@ -61,11 +57,9 @@ namespace FluentNgo.ViewModels
             {
                 newTable.Columns.Add(new DataColumn() { ColumnName = columnName });
             }
-
-            foreach (Student student in Students)
+            foreach (Student student in students)
             {
                 List<StudentMark> studentMarks = marks.Where(obj => obj.StudentId == student.StudentId).ToList();
-                // studentMarks = studentMarks.OrderBy(o => columnNames.IndexOf(o.SubjectName)).ToList();
 
                 object[] data = new object[columnNames.Count];
                 data[0] = student.GRNo;
@@ -91,8 +85,9 @@ namespace FluentNgo.ViewModels
             foreach (DataRow row in MarksTable.Rows)
             {
                 int? grNo = int.Parse(row["GR No"].ToString()!);
-                if (grNo == 0) continue; 
+                if (grNo == 0) continue;
                 int? studentId = Students.Where(stud => stud.GRNo == grNo).FirstOrDefault()?.StudentId;
+
                 foreach (DataColumn col in MarksTable.Columns)
                 {
                     int? subjectId = Subjects.Where(sub => sub.SubjectName == col.ColumnName).FirstOrDefault()?.SubjectId;
@@ -117,12 +112,23 @@ namespace FluentNgo.ViewModels
                 }
             }
 
+
             if (StudentMark.StudentMarksSave(StudentMarks))
             {
                 MessageBox.Show("Saved Succesfully!");
                 return;
             }
             MessageBox.Show("Something went wrong!");
+        }
+
+        public void ClearMarks()
+        {
+            MarksTable.Clear();
+        }
+
+        public void LoadSections(string ClassName)
+        {
+            StudentSection = Students.Where(x => x.ClassName == ClassName).Select(x => x.Section).Distinct().ToList();
         }
     }
 }

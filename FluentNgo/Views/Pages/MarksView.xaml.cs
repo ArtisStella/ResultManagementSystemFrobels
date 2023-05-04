@@ -3,11 +3,9 @@ using FluentNgo.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using md = MaterialDesignThemes.Wpf;
 using FluentNgo.Controls;
 
 namespace FluentNgo.Views.Pages;
@@ -29,11 +27,8 @@ public partial class MarksView
         int examId = (((ComboBox)sender).SelectedItem as Exam).ExamId;
         ExamId = examId;
 
-        FillTableColumns();
-
-        List<string> columnNames = MarksDG.Columns.Cast<DataGridColumn>().Select(column => (string)column.Header).ToList();
-
-        MarksVM.FillMarksTable(ExamId, columnNames);
+        ClassDD.IsEnabled = true;
+        SectionDD.IsEnabled = true;
     }
 
 
@@ -50,7 +45,7 @@ public partial class MarksView
         foreach (ExamSubjects subject in subjects)
         {
             //col = new DataGridTextColumn() { Header = subject.SubjectName, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding(subject.SubjectName) };
-            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName, subject.SubjectName, 100);
+            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName, subject.SubjectName, (int)subject.SubjectMarks);
             MarksDG.Columns.Add(subCol);
         }
     }
@@ -63,5 +58,25 @@ public partial class MarksView
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         MarksVM.SaveMarks(ExamId);
+    }
+
+    private void SectionDD_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        FillTableColumns();
+
+        List<string> columnNames = MarksDG.Columns.Cast<DataGridColumn>().Select(column => (string)column.Header).ToList();
+
+        MarksVM.FillMarksTable(ExamId, columnNames, ClassDD.SelectedItem as string, SectionDD.SelectedItem as string);
+    }
+
+    private void ClassDD_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        string ClassName = ClassDD.SelectedItem as string;
+        MarksVM.LoadSections(ClassName);
+        SectionDD.ItemsSource = MarksVM.StudentSection;
+
+        SectionDD.SelectedIndex = -1;
+
+        MarksVM.ClearMarks();
     }
 }

@@ -41,23 +41,55 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+                    <StackPanel 
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                                
+                        
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                x:Name="ExamDD"
+                                HorizontalAlignment="Left"
+                                Foreground="#FFFFFF"
+                                Margin="16"
+                                materialDesign:HintAssist.Hint="Exam"
+                                SelectionChanged="Exam_SelectionChanged"
+                                ItemsSource="{Binding ExamList}"
+                                MaxWidth="240"
+                                MinWidth="240"
+                                DisplayMemberPath="ExamName"
+                                SelectedValuePath="ExamId"
+                                />
 
-                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                            x:Name="ExamDD"
-                            Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            Foreground="#FFFFFF"
-                            Margin="16"
-                            materialDesign:HintAssist.Hint="Exam"
-                            SelectionChanged="Exam_SelectionChanged"
-                            ItemsSource="{Binding ExamList}"
-                            MaxWidth="240"
-                            MinWidth="240"
-                            DisplayMemberPath="ExamName"
-                            SelectedValuePath="ExamId" />
 
 
-                        <!--BUTTONS-->
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                x:Name="ClassDD"
+                                HorizontalAlignment="Center"
+                                Foreground="#FFFFFF"
+                                Margin="16"
+                                materialDesign:HintAssist.Hint="Class"
+                                ItemsSource="{Binding StudentClass}"
+                                MaxWidth="200"
+                                MinWidth="200"
+                                SelectionChanged="ClassDD_SelectionChanged"
+                                IsEnabled="False"/>
+
+                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                x:Name="SectionDD"
+                                HorizontalAlignment="Right"
+                                Foreground="#FFFFFF"
+                                Margin="16"
+                                materialDesign:HintAssist.Hint="Section"
+                                ItemsSource="{Binding StudentSection}"
+                                MaxWidth="200"
+                                MinWidth="200"
+                                SelectionChanged="SectionDD_SelectionChanged"
+                                IsEnabled="False"/>
+
+                     </StackPanel>
+
+
+                    <!--BUTTONS-->
                     <StackPanel Margin="16 0" Grid.Column="1" Orientation="Horizontal">
                         <ui:Button  Height="32"
                                     Icon="Save16"
