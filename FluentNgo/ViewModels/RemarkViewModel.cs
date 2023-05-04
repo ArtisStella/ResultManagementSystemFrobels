@@ -17,6 +17,11 @@ namespace FluentNgo.ViewModels
 {
     public class RemarkViewModel : ObservableObject
     {
+        public List<string> Category { get; set; }
+        public List<string> SubCategory { get; set; }
+
+
+
         public int RowCount { get; set; }
         private ICollectionView _remarksCollection;
 
@@ -63,17 +68,34 @@ namespace FluentNgo.ViewModels
                 FilterDataGrid(_filterString);
             }
         }
+        public List<Student> StudentList{ get; set; }
+        public List<string> StudentClass { get; set; }
+        public List<string> StudentSection { get; set; }
 
         public RemarkViewModel()
         {
             Remarks = new ObservableCollection<Remark>(Remark.RemarksGetAll());
 
+            Category = Remarks.Select(r => r.Category).Distinct().ToList();
+            SubCategory = Remarks.Select(r => r.SubCategory).Distinct().ToList();
             AnyRowSelected = false;
             RowCount = 2;
             RemarksCollection = CollectionViewSource.GetDefaultView(Remarks);
+
+            StudentList = Student.StudentGetAll();
+
+
+            StudentClass = StudentList.Select(x => x.ClassName).Distinct().ToList();
+
+
         }
 
+        public void LoadSections(string ClassName)
+        {
 
+            StudentSection = Student.StudentGetAll().Where(x => x.ClassName == ClassName).Select(x => x.Section).Distinct().ToList();
+
+        }
 
         public void FilterDataGrid(string query)
         {
@@ -102,5 +124,12 @@ namespace FluentNgo.ViewModels
 
             return remarkFilter;
         }
+
+        public void LoadStudents( string ClassName , string Section)
+        {
+            StudentList = Student.StudentGetAll().Where(x => x.ClassName == ClassName && x.Section == Section).ToList();
+        }
+
     }
+
 }
