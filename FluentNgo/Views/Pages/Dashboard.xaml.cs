@@ -12,7 +12,7 @@ public partial class Dashboard
 
     private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        StudentReport report = new(1);
+        StudentReport report = new(2, 1);
         report.GenerateStudentReport();
     }
 }

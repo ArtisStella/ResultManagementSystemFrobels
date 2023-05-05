@@ -1,15 +1,16 @@
 ﻿using SelectPdf;
-using System.IO;
 
 namespace FluentNgo.Reports
 {
     public class RemarksReportGenerator
     {
         private int StudentId { get; set; }
+        private int ExamId { get; set; }
 
-        public RemarksReportGenerator(int studentId)
+        public RemarksReportGenerator(int studentId, int examId)
         {
             StudentId = studentId;
+            ExamId = examId;
         }
 
         public string GetHtmlForRemarks()

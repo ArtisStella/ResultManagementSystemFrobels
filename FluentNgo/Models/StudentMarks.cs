@@ -18,6 +18,7 @@ namespace FluentNgo.Models
 
         //  View Only Properties
         public string SubjectName { get; set; }
+        public string SubjectMarks { get; set; }
 
         public static List<StudentMark> StudentMarksGetAllByExamId(int examId)
         {
@@ -55,6 +56,27 @@ namespace FluentNgo.Models
             catch (Exception ex)
             {
                 return false;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public static List<StudentMark> StudentMarksGetAllByExamAndStudentId(int studentId, int examId)
+        {
+            var Connection = new SQLiteConnection(App.ConnectionString);
+            Connection.Open();
+            try
+            {
+                string query = "SELECT t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks FROM StudentMark t JOIN Subject s ON s.SubjectId = t.SubjectId JOIN ExamSubjects es on es.ExamId = t.ExamId AND es.SubjectId = s.SubjectId WHERE t.StudentId = @studentId AND t.ExamId = @examId";
+                var output = Connection.Query<StudentMark>(query, new { studentId, examId });
+                return output.ToList();
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(ex.ToString());
+                return new List<StudentMark>();
             }
             finally
             {

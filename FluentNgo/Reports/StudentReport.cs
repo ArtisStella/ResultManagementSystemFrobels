@@ -6,16 +6,18 @@ namespace FluentNgo.Reports
     public class StudentReport
     {
         private int StudentId { get; set; }
+        private int ExamId { get; set; }
         
-        public StudentReport(int studentId)
+        public StudentReport(int studentId, int examId)
         {
             StudentId = studentId;
+            ExamId = examId;
         }
 
         public void GenerateStudentReport()
         {
-            MarksReportGenerator marksReportGenerator = new(StudentId);
-            RemarksReportGenerator remarksReportGenerator = new(StudentId);
+            MarksReportGenerator marksReportGenerator = new(StudentId, ExamId);
+            RemarksReportGenerator remarksReportGenerator = new(StudentId, ExamId);
 
             PdfDocument marksReport = marksReportGenerator.GenerateReport();
             PdfDocument remarksReport = remarksReportGenerator.GenerateReport();

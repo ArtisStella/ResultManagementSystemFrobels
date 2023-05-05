@@ -1,16 +1,20 @@
 ﻿using FluentNgo.Models;
 using SelectPdf;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FluentNgo.Reports
 {
     public class MarksReportGenerator
     {
         private int StudentId { get; set; }
-        
-        public MarksReportGenerator(int studentId)
+        private int ExamId { get; set; }
+
+        public MarksReportGenerator(int studentId, int examId)
         {
             StudentId = studentId;
+            ExamId = examId;
         }
 
         public string GetHtmlForReport()
@@ -89,43 +93,70 @@ namespace FluentNgo.Reports
 
         private string GetTBodyHtml()
         {
+            List<StudentMark> studentMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentId, ExamId);
+            List<StudentMark> tempMark;
+
+            List<string> subjects = new List<string>() { "English", "Mathematics", "Urdu", "Science", "Religeous Studies", "Pakistan Studies", "Dars" };
+
+            string Marks = "";
             string html = "<tbody>";
 
 
             //  English
-            string EnglishMarks = "";
+            Marks = "";
 
-            html += "<tr><th>English</th>" + EnglishMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "English").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>English</th>" + Marks + "</tr>";
 
             //  Maths
-            string MathsMarks = "";
+            Marks = "";
 
-            html += "<tr><th>Mathematics</th>" + MathsMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "Mathematics").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>Mathematics</th>" + Marks + "</tr>";
 
             //  Urdu
-            string UrduMarks = "";
+            Marks = "";
 
-            html += "<tr><th>Urdu</th>" + UrduMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "Urdu").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>Urdu</th>" + Marks + "</tr>";
 
             //  Science
-            string ScienceMarks = "";
+            Marks = "";
 
-            html += "<tr><th>Science</th>" + ScienceMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "Science").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>Science</th>" + Marks + "</tr>";
 
             //  Religeous Studies
-            string ReligeousStudiesMarks = "";
+            Marks = "";
 
-            html += "<tr><th>Religeous Studies</th>" + ReligeousStudiesMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "Religeous Studies").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>Religeous Studies</th>" + Marks + "</tr>";
 
             //  Pakistan Studies
-            string PakistanStudiesMarks = "";
+            Marks = "";
 
-            html += "<tr><th>Pakistan Studies</th>" + PakistanStudiesMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "Pakistan Studies").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>Pakistan Studies</th>" + Marks + "</tr>";
 
             //  Dars
-            string DarsMarks = "";
+            Marks = "";
 
-            html += "<tr><th>Dars</th>" + DarsMarks + "</tr>";
+            tempMark = studentMarks.Where(mark => mark.SubjectName == "Dars").ToList();
+            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+
+            html += "<tr><th>Dars</th>" + Marks + "</tr>";
 
 
             html += "</tbody>";
