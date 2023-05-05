@@ -10,6 +10,7 @@ namespace FluentNgo.Reports
     {
         private int StudentId { get; set; }
         private int ExamId { get; set; }
+        private string ExamType { get; set; }
 
         public MarksReportGenerator(int studentId, int examId)
         {
@@ -20,7 +21,7 @@ namespace FluentNgo.Reports
         public string GetHtmlForReport()
         {
             Student student = Student.StudentGetById(StudentId);
-            string ExamType = "First Formal";
+            ExamType = "First Formal";
 
             //  Report Data
             string reportType = "First Formal Report";
@@ -54,19 +55,7 @@ namespace FluentNgo.Reports
 
 
             //  Marks
-            html += "<div class='resultTable'><table>";
-
-            
-            //  THead
-            string ExamHeaders = "";
-            if (ExamType == "First Formal") ExamHeaders = "<th>1st Formal</th>";
-            
-            html += $"<thead><tr><th rowspan='2'>Subject</th><th colspan='3'>Acheived Marks</th><th rowspan='2'>Maximum Marks</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
-
-            //  TBody
-            html += GetTBodyHtml();
-            
-            html += "</table></div>";
+            html += GetTableHtml();
 
 
             //  Percentage Summary
@@ -91,6 +80,27 @@ namespace FluentNgo.Reports
             return doc;
         }
 
+        private string GetTableHtml()
+        {
+            int ExamCount = 1;
+
+            string html = "<div class='resultTable'><table>";
+
+            //  THead
+            string ExamHeaders = "";
+            if (ExamType == "First Formal") ExamHeaders = "<th>1st Formal</th>";
+
+            html += $"<thead><tr><th rowspan='2'>Subject</th><th colspan='{ExamCount}'>Acheived Marks</th><th rowspan='2'>Maximum Marks</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
+
+            //  TBody
+            html += GetTBodyHtml();
+
+            html += "</table></div>";
+            
+            return html;
+        }
+
+
         private string GetTBodyHtml()
         {
             List<StudentMark> studentMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentId, ExamId);
@@ -102,62 +112,25 @@ namespace FluentNgo.Reports
             string html = "<tbody>";
 
 
-            //  English
-            Marks = "";
+            foreach (string subject in subjects)
+            {
+                Marks = "";
 
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "English").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+                tempMark = studentMarks.Where(mark => mark.SubjectName == subject).ToList();
+                foreach (StudentMark mark in tempMark)
+                {
+                    float percentage = mark.Marks / float.Parse(mark.SubjectMarks);
+                    percentage *= 100;
 
-            html += "<tr><th>English</th>" + Marks + "</tr>";
+                    string grade = "A";
+                    
+                    Marks += $"<td>{mark.Marks}</td><td>{mark.SubjectMarks}</td><td>{percentage}</td><td>{grade}</td>";
+                }
 
-            //  Maths
-            Marks = "";
+                Marks = Marks == "" ? "<td></td><td></td><td></td><td></td>" : Marks;
 
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Mathematics").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Mathematics</th>" + Marks + "</tr>";
-
-            //  Urdu
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Urdu").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Urdu</th>" + Marks + "</tr>";
-
-            //  Science
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Science").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Science</th>" + Marks + "</tr>";
-
-            //  Religeous Studies
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Religeous Studies").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Religeous Studies</th>" + Marks + "</tr>";
-
-            //  Pakistan Studies
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Pakistan Studies").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Pakistan Studies</th>" + Marks + "</tr>";
-
-            //  Dars
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Dars").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Dars</th>" + Marks + "</tr>";
-
+                html += $"<tr><th>{subject}</th>{Marks}</tr>";
+            }
 
             html += "</tbody>";
 
