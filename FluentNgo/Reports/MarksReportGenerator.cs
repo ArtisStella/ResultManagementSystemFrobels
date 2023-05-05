@@ -10,6 +10,10 @@ namespace FluentNgo.Reports
     {
         private int StudentId { get; set; }
         private int ExamId { get; set; }
+        private string ExamType { get; set; }
+
+        private float MarksObtained;
+        private float TotalMarks;
 
         public MarksReportGenerator(int studentId, int examId)
         {
@@ -20,7 +24,7 @@ namespace FluentNgo.Reports
         public string GetHtmlForReport()
         {
             Student student = Student.StudentGetById(StudentId);
-            string ExamType = "First Formal";
+            ExamType = "First Formal";
 
             //  Report Data
             string reportType = "First Formal Report";
@@ -31,9 +35,6 @@ namespace FluentNgo.Reports
             string AttendancePercent = "100.0";
             string SemesterDays = "90";
             string DaysAttended = "90";
-
-            float TotalPercentage = 90.0f;
-            string Grade = "A";
 
             string PreviousTerm = "1st Term";
             bool PreviousTermCleared = true;
@@ -54,20 +55,11 @@ namespace FluentNgo.Reports
 
 
             //  Marks
-            html += "<div class='resultTable'><table>";
+            html += GetTableHtml();
 
-            
-            //  THead
-            string ExamHeaders = "";
-            if (ExamType == "First Formal") ExamHeaders = "<th>1st Formal</th>";
-            
-            html += $"<thead><tr><th rowspan='2'>Subject</th><th colspan='3'>Acheived Marks</th><th rowspan='2'>Maximum Marks</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
 
-            //  TBody
-            html += GetTBodyHtml();
-            
-            html += "</table></div>";
-
+            float TotalPercentage = MarksObtained / TotalMarks * 100;
+            string Grade = "A";
 
             //  Percentage Summary
             html += $"<div class='reportSummary percentage'><label style='flex-basis: 25%' class='grid-item'>Percentage</label><span style='flex-basis: 50%' class='grid-item'>{TotalPercentage}%</span><label style='flex-grow: 1' class='grid-item'>Grade</label><span style='flex-grow: 1' class='grid-item'>{Grade}</span></div>";
@@ -91,6 +83,27 @@ namespace FluentNgo.Reports
             return doc;
         }
 
+        private string GetTableHtml()
+        {
+            int ExamCount = 1;
+
+            string html = "<div class='resultTable'><table>";
+
+            //  THead
+            string ExamHeaders = "";
+            if (ExamType == "First Formal") ExamHeaders = "<th>1st Formal</th>";
+
+            html += $"<thead><tr><th rowspan='2'>Subject</th><th colspan='{ExamCount}'>Acheived Marks</th><th rowspan='2'>Maximum Marks</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
+
+            //  TBody
+            html += GetTBodyHtml();
+
+            html += "</table></div>";
+            
+            return html;
+        }
+
+
         private string GetTBodyHtml()
         {
             List<StudentMark> studentMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentId, ExamId);
@@ -102,62 +115,28 @@ namespace FluentNgo.Reports
             string html = "<tbody>";
 
 
-            //  English
-            Marks = "";
+            foreach (string subject in subjects)
+            {
+                Marks = "";
 
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "English").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+                tempMark = studentMarks.Where(mark => mark.SubjectName == subject).ToList();
+                foreach (StudentMark mark in tempMark)
+                {
+                    MarksObtained += mark.Marks;
+                    TotalMarks += float.Parse(mark.SubjectMarks);
 
-            html += "<tr><th>English</th>" + Marks + "</tr>";
+                    float percentage = mark.Marks / float.Parse(mark.SubjectMarks);
+                    percentage *= 100;
 
-            //  Maths
-            Marks = "";
+                    string grade = "A";
+                    
+                    Marks += $"<td>{mark.Marks}</td><td>{mark.SubjectMarks}</td><td>{percentage}</td><td>{grade}</td>";
+                }
 
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Mathematics").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
+                Marks = Marks == "" ? "<td></td><td></td><td></td><td></td>" : Marks;
 
-            html += "<tr><th>Mathematics</th>" + Marks + "</tr>";
-
-            //  Urdu
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Urdu").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Urdu</th>" + Marks + "</tr>";
-
-            //  Science
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Science").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Science</th>" + Marks + "</tr>";
-
-            //  Religeous Studies
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Religeous Studies").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Religeous Studies</th>" + Marks + "</tr>";
-
-            //  Pakistan Studies
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Pakistan Studies").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Pakistan Studies</th>" + Marks + "</tr>";
-
-            //  Dars
-            Marks = "";
-
-            tempMark = studentMarks.Where(mark => mark.SubjectName == "Dars").ToList();
-            foreach (StudentMark mark in tempMark) Marks += $"<td>{mark.Marks}</td>";
-
-            html += "<tr><th>Dars</th>" + Marks + "</tr>";
-
+                html += $"<tr><th>{subject}</th>{Marks}</tr>";
+            }
 
             html += "</tbody>";
 
