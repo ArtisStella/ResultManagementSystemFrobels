@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <title>Test Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            /* margin: 16px 300px; */
+            padding: 32px;
+            background-color: white;
+        }
+
+        .container header{
+            text-align: center;
+        }
+
+        .studentInfo table{
+            width: 100%;
+        }
+
+        .studentInfo table th{
+            text-align: left;
+        }
+
+        .resultTable {
+            margin: 2rem 0;
+        }
+
+        .resultTable table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .resultTable table th, .resultTable table td {
+            border: 1px solid gray;
+            padding: 8px;
+        }
+
+        .reportSummary {
+            margin: 0 64px;
+            align-items: center;
+            margin-bottom: 16px;
+            border: 1px solid gray;
+        }
+
+        .reportSummary.percentage, .reportSummary.prevTerm {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .reportSummary.percentage .grid-item {
+            border: 1px solid gray;
+        }
+
+        .reportSummary.legend table {
+            width: 100%;
+        }
+
+        .reportSummary .grid-item {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .reportSummary label {
+            font-weight: bold;
+        }
+
+        .reportSummary .clear-box {
+            width: 24px;
+            height: 24px;
+            background-color: gray;
+            margin: 0 16px;
+        }
+
+        .reportSummary .clear-box.active {
+            background-color: green;
+        }
+
+        .reportEnd {
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>Mid Term Report</h2>
+            <h3>Year 2023-2024</h3>
+        </header>
+
+        <div class="studentInfo">
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td style="width: 50%"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Name</th>
+                        <td>Huzaifa</td>
+                        <td>GR No</td>
+                        <td>3556</td>
+                    </tr>
+                    <tr>
+                        <td>Class</td>
+                        <td>V - Carnation</td>
+                        <td>Attendance (%)</td>
+                        <td>100.0</td>
+                    </tr>
+                    <tr>
+                        <td>Total Days of Semester</td>
+                        <td>90</td>
+                        <td>Days Attended</td>
+                        <td>90</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resultTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Subject</th>
+                        <th colspan="3">Acheived Marks</th>
+                        <th rowspan="2">Maximum Marks</th>
+                        <th rowspan="2">Percentage (%)</th>
+                        <th rowspan="2">Grade</th>
+                    </tr>
+                    <tr>
+                        <th>1st Formal</th>
+                        <th>2nd Formal</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>English</th>
+                    </tr>
+                    <tr>
+                        <th>Mathematics</th>
+                    </tr>
+                    <tr>
+                        <th>Urdu</th>
+                    </tr>
+                    <tr>
+                        <th>Science</th>
+                    </tr>
+                    <tr>
+                        <th>Religeous Studies</th>
+                    </tr>
+                    <tr>
+                        <th>Pakistan Studies</th>
+                    </tr>
+                    <tr>
+                        <th>Dars</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reportSummary percentage">
+            <label style="flex-basis: 25%" class="grid-item">Percentage</label>
+            <span style="flex-basis: 50%" class="grid-item">90.0%</span>
+            <label style="flex-grow: 1" class="grid-item">Grade</label>
+            <span style="flex-grow: 1" class="grid-item">A</span>
+        </div>
+
+        <div class="reportSummary prevTerm">
+            <label style="flex-basis: 25%" class="grid-item">1st Term</label>
+            <span style="flex-grow: 1" class="grid-item">Cleared</span>
+            <input type="checkbox" checked class="clear-box"/>
+            <span style="flex-grow: 1" class="grid-item">Not Cleared</span>
+            <input type="checkbox" class="clear-box"/>
+        </div>
+        
+        <hr class="reportEnd" />
+
+        <div class="reportSummary legend">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="grid-item">A+ = 90% - 100%</td>
+                        <td class="grid-item">B+ = 70% - 79.99%</td>
+                        <td class="grid-item">C+ = 55% - 59.99%</td>
+                    </tr>
+                    <tr>
+                        <td class="grid-item">A  = 80% - 89.99%</td>
+                        <td class="grid-item">B  = 60% - 69.99%</td>
+                        <td class="grid-item">Fail = Below 55%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

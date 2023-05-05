@@ -12,8 +12,8 @@ public partial class Dashboard
 
     private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        MarksReportGenerator marksReportGenerator = new MarksReportGenerator(2);
-        marksReportGenerator.GenerateReport();
+        StudentReport report = new(1);
+        report.GenerateStudentReport();
     }
 }
 
