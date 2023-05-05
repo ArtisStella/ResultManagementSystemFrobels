@@ -61,12 +61,14 @@ public partial class RemarkView
 
             int rowIndex = RemarksDG.RowDefinitions.IndexOf(newRow);
 
-            TextBlock cat = new TextBlock();
-            cat.Text = category;
-            cat.FontSize = 18;
-            cat.FontWeight = FontWeights.Bold;
-            cat.Margin = new Thickness(0, 8, 0, 8);
-            cat.TextDecorations = TextDecorations.Underline;
+            TextBlock cat = new()
+            {
+                Text = category,
+                FontSize = 18,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(16, 16, 16, 8),
+                VerticalAlignment = VerticalAlignment.Center
+            };
 
             Grid.SetRow(cat, rowIndex);
             Grid.SetColumn(cat, 1); // Set column index to 0
@@ -77,10 +79,9 @@ public partial class RemarkView
             foreach (string subcategory in RemarkVM.SubCategory)
             {
                 bool hasMatch = false;
-                foreach (var obj in RemarkVM.Remarks)
+                foreach (Remark rem in RemarkVM.Remarks)
                 {
-
-                    if (obj.Category == category && obj.SubCategory == subcategory && obj.SubCategory != null)
+                    if (rem.Category == category && rem.SubCategory == subcategory && rem.SubCategory != null)
                     {
                         hasMatch = true;
                         break;
@@ -94,11 +95,14 @@ public partial class RemarkView
 
                     rowIndex = RemarksDG.RowDefinitions.IndexOf(newRow);
 
-                    TextBlock subcat = new TextBlock();
-                    subcat.Text = subcategory;
-                    subcat.FontSize = 16;
-                    subcat.FontWeight = FontWeights.Bold;
-
+                    TextBlock subcat = new()
+                    {
+                        Text = subcategory,
+                        FontSize = 16,
+                        FontWeight = FontWeights.Bold,
+                        Margin = new Thickness(16, 8, 16, 8),
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
 
                     Grid.SetRow(subcat, rowIndex);
                     Grid.SetColumn(subcat, 1); // Set column index to 0
@@ -128,19 +132,25 @@ public partial class RemarkView
                         remId.Text = remark.RemarkId.ToString();
 
                         Grid.SetRow(remId, rowIndex);
-                        Grid.SetColumn(remId, 0); 
+                        Grid.SetColumn(remId, 0);
 
 
-                        TextBlock rem = new TextBlock();
-                        rem.Text = remark.Remarks;
-                        rem.FontSize = 12;
-                        rem.Margin = new Thickness(0, 5, 0, 5);
-                        
+                        TextBlock rem = new()
+                        {
+                            Text = remark.Remarks,
+                            FontSize = 14,
+                            Margin = new Thickness(16, 8, 16, 8),
+                            VerticalAlignment = VerticalAlignment.Center
+                        };
+
                         Grid.SetRow(rem, rowIndex);
-                        Grid.SetColumn(rem, 1); 
+                        Grid.SetColumn(rem, 1);
 
-                        CheckBox cb = new CheckBox();
-                        cb.IsChecked = Checked == 1 ? true : false; 
+                        CheckBox cb = new()
+                        {
+                            IsChecked = Checked == 1 ? true : false,
+                            HorizontalAlignment = HorizontalAlignment.Center
+                        };
                         Grid.SetRow(cb, rowIndex);
                         Grid.SetColumn(cb, 2);
 

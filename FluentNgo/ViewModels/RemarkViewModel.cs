@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Media.Effects;
-using System.Windows;
 using FluentNgo.Core;
 using FluentNgo.Models;
-using FluentNgo.Views.Components;
 
 
 namespace FluentNgo.ViewModels
@@ -20,9 +14,6 @@ namespace FluentNgo.ViewModels
         public List<string> Category { get; set; }
         public List<string> SubCategory { get; set; }
 
-
-
-        public int RowCount { get; set; }
         private ICollectionView _remarksCollection;
 
         public ICollectionView RemarksCollection
@@ -79,7 +70,6 @@ namespace FluentNgo.ViewModels
             Category = Remarks.Select(r => r.Category).Distinct().ToList();
             SubCategory = Remarks.Select(r => r.SubCategory).Distinct().ToList();
             AnyRowSelected = false;
-            RowCount = 2;
             RemarksCollection = CollectionViewSource.GetDefaultView(Remarks);
 
             StudentList = Student.StudentGetAll();

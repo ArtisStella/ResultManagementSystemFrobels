@@ -64,8 +64,8 @@
                                 MinWidth="200"
                                 SelectionChanged="RemarksSectionDD_SelectionChanged"
                                 IsEnabled="False"/>
-                        
-                        
+
+
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                             x:Name="StudentDD"
                             HorizontalAlignment="Left"
@@ -73,19 +73,14 @@
                             Margin="12"
                             materialDesign:HintAssist.Hint="Gr No"
                             ItemsSource="{Binding StudentList}"
-                            MaxWidth="150"
-                            MinWidth="150"
+                            MaxWidth="200"
+                            MinWidth="200"
                             SelectionChanged="StudentDD_SelectionChanged"
                             DisplayMemberPath="GRNo"
                             SelectedValuePath="StudentId"
                             IsEnabled="False"/>
 
                     </StackPanel>
-
-
-                    
-
-
 
 
                     <StackPanel Margin="16 0" Grid.Column="1" Orientation="Horizontal">
@@ -108,7 +103,6 @@
                             <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
                     </Grid>
-
                 </ScrollViewer>
 
             </Grid>

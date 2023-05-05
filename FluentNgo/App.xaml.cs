@@ -19,10 +19,7 @@ namespace FluentNgo
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainWindow = new Container()
-            {
-                DataContext = new ViewModelRoot()
-            };
+            MainWindow = new Container();
 
             MainWindow.Show();
 
