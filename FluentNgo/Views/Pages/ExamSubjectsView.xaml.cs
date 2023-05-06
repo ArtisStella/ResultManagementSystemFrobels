@@ -75,16 +75,9 @@ namespace FluentNgo.Views.Pages
         {
             string message = "Something went wrong!";
 
-            if (ExamSubjectsVM.SaveExamSubjects()) message = "Succesfully saved!";
+            if (ExamSubjectsVM.SaveExamSubjects()) message = "Saved Succesfully!";
 
-            FeedbackSB.MessageQueue?.Enqueue(
-                message,
-                null,
-                null,
-                null,
-                false,
-                true,
-                TimeSpan.FromSeconds(2));
+            FeedbackSB.MessageQueue?.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(2));
         }
     }
 }
