@@ -17,6 +17,12 @@ namespace FluentNgo.Models
         public int ExamId { get; set; }
 
 
+        //  View Only Properties
+        public string Remarks { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
+
+
         public static bool RemarksSave(List<StudentRemarks> remarks)
         {
             var Connection = new SQLiteConnection(App.ConnectionString);
@@ -47,6 +53,28 @@ namespace FluentNgo.Models
 
                 return output.AsList();
                 
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(ex.ToString());
+                return new List<StudentRemarks>();
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public static List<StudentRemarks> RemarksGetAllByStudentAndExamId(int StudentId, int ExamId)
+        {
+            var Connection = new SQLiteConnection(App.ConnectionString);
+            Connection.Open();
+            try
+            {
+                var output = Connection.Query<StudentRemarks>("SELECT * FROM StudentRemarks t JOIN Remarks r on r.RemarKId = t.RemarkId WHERE t.StudentId = @StudentId", new { StudentId });
+
+                return output.AsList();
+
             }
             catch (Exception ex)
             {

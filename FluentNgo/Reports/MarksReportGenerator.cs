@@ -2,6 +2,7 @@
 using SelectPdf;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 
 namespace FluentNgo.Reports
@@ -9,8 +10,9 @@ namespace FluentNgo.Reports
     public class MarksReportGenerator
     {
         private int StudentId { get; set; }
-        private int ExamId { get; set; }
-        private string ExamType { get; set; }
+        private int ExamId { get; set; } 
+        public ExamType Type { get; set; }
+
 
         private Dictionary<float, string> gradeMapping = new()
         {
@@ -28,15 +30,16 @@ namespace FluentNgo.Reports
         {
             StudentId = studentId;
             ExamId = examId;
+
+            Type = ExamType.ExamTypeGetByExamId(ExamId);
         }
 
         public string GetHtmlForReport()
         {
             Student student = Student.StudentGetById(StudentId);
-            ExamType = "First Formal";
 
             //  Report Data
-            string reportType = "First Formal Report";
+            string reportType = Type.ExamTypeName + "Report";
             string academicYear = "Year 2023-2024";
             string? StudentName = student.StudentName;
             int GRNo = student.GRNo;
@@ -85,12 +88,6 @@ namespace FluentNgo.Reports
             return html;
         }
 
-        public PdfDocument GenerateReport()
-        {
-            HtmlToPdf converter = new();
-            PdfDocument doc = converter.ConvertHtmlString(GetHtmlForReport());
-            return doc;
-        }
 
         private string GetTableHtml()
         {
@@ -100,7 +97,14 @@ namespace FluentNgo.Reports
 
             //  THead
             string ExamHeaders = "";
-            if (ExamType == "First Formal") ExamHeaders = "<th>1st Formal</th>";
+            if (Type.ExamTypeName == "First Formal") ExamHeaders = "<th>1st Formal</th>";
+            if (Type.ExamTypeName == "Second Formal") ExamHeaders = "<th>2nd Formal</th>";
+            if (Type.ExamTypeName == "Mid Term") ExamHeaders = "<th>Mid Terms</th>";
+            if (Type.ExamTypeName == "Annual Examination") {
+                ExamCount = 4;
+                ExamHeaders = "<th>3rd Formal</th><th>4th Formal</th><th>Annual</th><th>Total</th>"; 
+            }
+
 
             html += $"<thead><tr><th rowspan='2'>Subject</th><th colspan='{ExamCount}'>Acheived Marks</th><th rowspan='2'>Maximum Marks</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
 
@@ -118,7 +122,7 @@ namespace FluentNgo.Reports
             List<StudentMark> studentMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentId, ExamId);
             List<StudentMark> tempMark;
 
-            List<string> subjects = new List<string>() { "English", "Mathematics", "Urdu", "Science", "Religeous Studies", "Pakistan Studies", "Dars" };
+            List<string> subjects = new List<string>() { "English", "Mathematics", "Urdu", "Science", "Religious Studies", "Pakistan Studies", "Dars" };
 
             string Marks = "";
             string html = "<tbody>";
@@ -161,6 +165,16 @@ namespace FluentNgo.Reports
                 }
             }
             return "F";
+        }
+        public PdfDocument GenerateReport()
+        {
+            HtmlToPdf converter = new();
+
+            converter.Options.MarginTop = 100;
+
+            PdfDocument doc = converter.ConvertHtmlString(GetHtmlForReport());
+
+            return doc;
         }
     }
 }

@@ -6,10 +6,12 @@
 		@page {
 			size: letter;
 			margin: 0.25in;
+			margin-top: 0.5in;
 		}
 
 		body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			print-color-adjust: exact;
         }
 
 		.container {
@@ -22,19 +24,22 @@
         }
 
 	    table {
-			border-spacing: 8px;
+			border-collapse: collapse;
 	        width: 100%;
 	    }
-
-		table:not(:last-child) {
-			page-break-after: always;
-		}
 
 	    th, td {
 	        text-align: left;
 			font-size: 14px;
-	        padding: 8px;
+	        padding: 4px;
+			padding-top: 8px;
+			border-bottom: 1px darkgray solid;
 	    }
+
+		tr td:not(:first-child) {
+			width:100px;
+			text-align: center;
+		}
 
 		input[type="checkbox"] {
 			transform: scale(1.25); 
@@ -46,20 +51,20 @@
 	    }
 		
 		.category {
-			font-size: 18px;
+			/* font-size: 18px; */
 		}
 
 		.sub-category{
 			text-align: left;
-			font-size: 16px;
+			/* font-size: 16px; */
 		}
 	</style>
 </head>
 <body>
 	<div class="container">
-		<header><h1>Remarks</h1></header>
+		<header><h2 style="margin-top: 8px;">Remarks</h2></header>
 		
-		<table>
+		<table style="page-break-after: always;">
 			<thead>
 				<tr>
 					<th class="category" colspan="2">Work Habit</th>
@@ -124,12 +129,19 @@
 			<thead>
 				<tr>
 				  	<th class="category" colspan="2">Archery Skills</th>
-				</tr>     
-				<tr>
-					<th class="sub-category" colspan="2">i) Has developed the following Archery skills:</th>
 				</tr>
 			</thead>
 			<tbody>
+				<th class="sub-category" colspan="2">i) Has developed the following Archery skills:</th>
+				<tr>
+				</tr>
+				<tr>
+					<td>a) Shows accuracy</td>
+					<td><input type="checkbox" id="a"></td>
+				</tr>
+				<tr>
+					<th class="sub-category" colspan="2">i) Has developed the following Archery skills:</th>
+				</tr>
 				<tr>
 					<td>a) Shows accuracy</td>
 					<td><input type="checkbox" id="a"></td>
