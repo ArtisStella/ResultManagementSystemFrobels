@@ -33,5 +33,26 @@ namespace FluentNgo.Models
                 Connection.Close();
             }
         }
+
+        public static ExamType ExamTypeGetByExamId(int ExamId)
+        {
+            var Connection = new SQLiteConnection(App.ConnectionString);
+            Connection.Open();
+            try
+            {
+                var output = Connection.Query<ExamType>("SELECT et.* FROM Exam t JOIN ExamType et on et.ExamTypeId = t.ExamTypeId WHERE t.ExamId = @ExamId", new { ExamId });
+
+                return output.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(ex.ToString());
+                return new ExamType();
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
     }
 }
