@@ -78,7 +78,7 @@ namespace FluentNgo.ViewModels
             MarksTable = newTable;
         }
 
-        public void SaveMarks(int examId)
+        public bool SaveMarks(int examId)
         {
             StudentMarks = new List<StudentMark>();
 
@@ -91,16 +91,16 @@ namespace FluentNgo.ViewModels
                 foreach (DataColumn col in MarksTable.Columns)
                 {
                     int? subjectId = Subjects.Where(sub => sub.SubjectName == col.ColumnName).FirstOrDefault()?.SubjectId;
-                    int marks;
+                    string marks;
                     try
                     {
-                        marks = int.Parse(row[col.ColumnName].ToString()!);
+                        marks = row[col.ColumnName].ToString()!;
                     } catch
                     {
-                        marks = 0;
+                        marks = "0.00";
                     }
 
-                    if (subjectId == 0 || !subjectId.HasValue || marks == 0) continue;
+                    if (subjectId == 0 || !subjectId.HasValue || marks == "0.00") continue;
 
                     StudentMark studentMark = new StudentMark();
                     studentMark.ExamId = examId;
@@ -112,13 +112,7 @@ namespace FluentNgo.ViewModels
                 }
             }
 
-
-            if (StudentMark.StudentMarksSave(StudentMarks))
-            {
-                MessageBox.Show("Saved Succesfully!");
-                return;
-            }
-            MessageBox.Show("Something went wrong!");
+            return StudentMark.StudentMarksSave(StudentMarks);
         }
 
         public void ClearMarks()

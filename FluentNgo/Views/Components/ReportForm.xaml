@@ -1,0 +1,89 @@
+﻿<Window
+        x:Class="FluentNgo.Views.Components.ReportForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FluentNgo.Views.Components"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Title="ReportForm"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseDown="SF_MouseDown"
+        Height="350" MinWidth="0" Width="320">
+
+    <Window.Resources>
+        <Style x:Key="FormTextBox" TargetType="TextBox" 
+               BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0 0 0 8"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="Transparent" BorderThickness="0" CornerRadius="10" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+
+        <Grid x:Name="RootGrid" Focusable="True">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="64"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock 
+                Grid.Row="0" Text="Generate Report"
+                Foreground="#FFFFFFFF"
+                FontSize="24" Padding="26 20"/>
+
+            <ui:Button 
+                Grid.Row="0"
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right"
+                Cursor="Hand"
+                Icon="Dismiss24"
+                Margin="16"
+                FontSize="16"
+                Click="CloseWindow"/>
+
+            <StackPanel Grid.Row="1" Margin="26 0">
+
+                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          Foreground="#FFFFFF"
+                          materialDesign:HintAssist.Hint="Exam"
+                          ItemsSource="{ Binding ExamList }"
+                          SelectionChanged="Exam_SelectionChanged"
+                          DisplayMemberPath="ExamName"
+                          SelectedValuePath="ExamId" />
+
+                <TextBox
+                    materialDesign:HintAssist.Hint="Total Number of Days"
+                    Text="{Binding TotalDays}"
+                    Style="{StaticResource FormTextBox}"/>
+
+                <TextBox
+                    materialDesign:HintAssist.Hint="Days Attended"
+                    Text="{Binding DaysAttended}"
+                    Style="{StaticResource FormTextBox}"/>
+
+
+
+            </StackPanel>
+            
+            <ui:Button
+                Grid.Row="2"
+                Icon="Checkmark12"
+                FontSize="14"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Margin="24 0"
+                Content="Genrate"
+                Click="SubmitForm"/>
+        </Grid>
+    </Border>
+</Window>

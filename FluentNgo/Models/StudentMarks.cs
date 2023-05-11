@@ -14,7 +14,7 @@ namespace FluentNgo.Models
         public int ExamId { get; set; }
         public int StudentId { get; set; }
         public int SubjectId { get; set; }
-        public int Marks { get; set; }
+        public string Marks { get; set; }
 
         //  View Only Properties
         public string SubjectName { get; set; }

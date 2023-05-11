@@ -14,9 +14,9 @@ namespace FluentNgo.Controls
 {
     class NumericColumnGenerator
     {
-        public int MaxValue { get; set; }
+        public float MaxValue { get; set; }
 
-        public DataGridTemplateColumn GenerateNumericColumn(string header, string BindingPath, int maxValue)
+        public DataGridTemplateColumn GenerateNumericColumn(string header, string BindingPath, float maxValue)
         {
             MaxValue = maxValue;
 
@@ -28,7 +28,7 @@ namespace FluentNgo.Controls
 
             var template = new DataTemplate();
             var textBoxFactory = new FrameworkElementFactory(typeof(TextBox));
-            textBoxFactory.SetBinding(TextBox.TextProperty, new Binding(BindingPath) { Mode = BindingMode.TwoWay, TargetNullValue = "", UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, Converter = new NumericTextConverter() });
+            textBoxFactory.SetBinding(TextBox.TextProperty, new Binding(BindingPath) { Mode = BindingMode.TwoWay, TargetNullValue = "", UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             textBoxFactory.AddHandler(TextBox.PreviewTextInputEvent, new TextCompositionEventHandler(TB_PreviewTextInput));
             textBoxFactory.AddHandler(TextBox.LostFocusEvent, new RoutedEventHandler(TB_LostFocus));
 
@@ -40,23 +40,22 @@ namespace FluentNgo.Controls
 
         private void TB_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new Regex("[^0-9Aa.]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
         private void TB_LostFocus(object sender, RoutedEventArgs e)
         {
-            try
+            float value;
+            _ = float.TryParse(((TextBox)sender).Text, out value);
+            
+            if (((TextBox)sender).Text.Contains("A") || ((TextBox)sender).Text.Contains("a"))
             {
-                int value = int.Parse(((TextBox)sender).Text);
-                if (value > MaxValue)
-                {
-                    ((TextBox)sender).Text = MaxValue.ToString();
-                }
-            }
-            catch
+                ((TextBox)sender).Text = "A";
+            } 
+            else if (value > MaxValue)
             {
-                ((TextBox)sender).Text = "0";
+                ((TextBox)sender).Text = MaxValue.ToString();
             }
         }
 

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Progress Report</title>
+	<style>
+		@page {
+			size: letter;
+			margin: 0.25in;
+			margin-top: 0.5in;
+		}
+
+		body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			print-color-adjust: exact;
+        }
+
+		.container {
+            padding: 32px;
+            background-color: white;
+        }
+
+        .container header{
+            text-align: center;
+        }
+
+	    table {
+			border-collapse: collapse;
+	        width: 100%;
+	    }
+
+	    th, td {
+	        text-align: left;
+			font-size: 14px;
+	        padding: 4px;
+			padding-top: 8px;
+			border-bottom: 1px darkgray solid;
+	    }
+
+		tr td:not(:first-child) {
+			width:100px;
+			text-align: center;
+		}
+
+		input[type="checkbox"] {
+			transform: scale(1.25); 
+		}
+
+	    th {
+	        background-color: #f2f2f2;
+			text-align: center;
+	    }
+		
+		.category {
+			/* font-size: 18px; */
+		}
+
+		.sub-category{
+			text-align: left;
+			/* font-size: 16px; */
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header><h2 style="margin-top: 8px;">Remarks</h2></header>
+		
+		<table style="page-break-after: always;">
+			<thead>
+				<tr>
+					<th class="category" colspan="2">Work Habit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>a) Displays an excellent attitude towards learning</td>
+					<td><input type="checkbox" id="a"></td>
+				</tr>
+				<tr>
+					<td>b) Has a clear love for learning and shows determination even when finds the subject matter challenging</td>
+					<td><input type="checkbox" id="b"></td>
+				</tr>
+				<tr>
+					<td>c) With a little teachers' encouragement, he / she is developing a better attitude towards school's work.</td>
+					<td><input type="checkbox" id="c"></td>
+				</tr>
+				<tr>
+					<td>d) Is starting to gain confidence to contribute to class discussions</td>
+					<td><input type="checkbox" id="d"></td>
+				</tr>
+				<tr>
+					<td>e) Is well prepared for class each daiy</td>
+					<td><input type="checkbox" id="e"></td>
+				</tr>
+				<tr>
+					<td>f) Takes pride in all the work he / she does and always does a neat job</td>
+					<td><input type="checkbox" id="f"></td>
+				</tr>
+				<tr>
+					<td>g) Often needs repeated instructions before he / she understands the set task</td>
+					<td><input type="checkbox" id="g"></td>
+				</tr>
+				<tr>
+					<td>h) Is able to finish the set task when he/she displays focus</td>
+					<td><input type="checkbox" id="h"></td>
+				</tr>
+				<tr>
+					<td>i) Struggles in completing work in a timely manner</td>
+					<td><input type="checkbox" id="i"></td>
+				</tr>
+				<tr>
+					<td>j) Is gradually learning how to listen to instructions better</td>
+					<td><input type="checkbox" id="j"></td>
+				</tr>
+				<tr>
+					<td>k) Is not yet able to work in small groups as he/she is observed to struggle to focus and engage with peers</td>
+					<td><input type="checkbox" id="k"></td>
+				</tr>
+				<tr>
+					<td>l) Takes pride in his/her consistent efforts he/she has displayed throughout the term</td>
+					<td><input type="checkbox" id="l"></td>
+				</tr>
+				<tr>
+					<td>m) Relies heavily on teachers' assistance to complete the set task</td>
+					<td><input type="checkbox" id="m"></td>
+				</tr>
+			</tbody>
+		</table>
+		<table>
+			<thead>
+				<tr>
+				  	<th class="category" colspan="2">Archery Skills</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th class="sub-category" colspan="2">i) Has developed the following Archery skills:</th>
+				<tr>
+				</tr>
+				<tr>
+					<td>a) Shows accuracy</td>
+					<td><input type="checkbox" id="a"></td>
+				</tr>
+				<tr>
+					<th class="sub-category" colspan="2">i) Has developed the following Archery skills:</th>
+				</tr>
+				<tr>
+					<td>a) Shows accuracy</td>
+					<td><input type="checkbox" id="a"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

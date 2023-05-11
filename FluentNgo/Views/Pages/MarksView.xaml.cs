@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using FluentNgo.Controls;
+using System;
 
 namespace FluentNgo.Views.Pages;
 
@@ -45,7 +46,7 @@ public partial class MarksView
         foreach (ExamSubjects subject in subjects)
         {
             //col = new DataGridTextColumn() { Header = subject.SubjectName, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding(subject.SubjectName) };
-            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName, subject.SubjectName, (int)subject.SubjectMarks);
+            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName, subject.SubjectName, (float)subject.SubjectMarks);
             MarksDG.Columns.Add(subCol);
         }
     }
@@ -57,7 +58,11 @@ public partial class MarksView
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        MarksVM.SaveMarks(ExamId);
+        string message = "Something went wrong!";
+
+        if (MarksVM.SaveMarks(ExamId)) message = "Saved Succesfully!";
+
+        FeedbackSB.MessageQueue?.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(2));
     }
 
     private void SectionDD_SelectionChanged(object sender, SelectionChangedEventArgs e)

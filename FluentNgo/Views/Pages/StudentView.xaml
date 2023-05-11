@@ -127,6 +127,17 @@
                         <DataGridTextColumn Header="Section"
                                             CanUserResize="False"
                                             Binding="{Binding Section}"/>
+
+                        <DataGridTemplateColumn Header="Report">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Report" 
+                                            FontSize="12"
+                                            Click="ReportButton_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid> 

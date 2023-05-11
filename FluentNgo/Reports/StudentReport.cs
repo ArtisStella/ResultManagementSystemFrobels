@@ -1,23 +1,22 @@
-﻿using SelectPdf;
+﻿using FluentNgo.Reports.Models;
+using SelectPdf;
 using System.Diagnostics;
 
 namespace FluentNgo.Reports
 {
     public class StudentReport
     {
-        private int StudentId { get; set; }
-        private int ExamId { get; set; }
+        private StudentReportObject Student { get; set; }
         
-        public StudentReport(int studentId, int examId)
+        public StudentReport(StudentReportObject student)
         {
-            StudentId = studentId;
-            ExamId = examId;
+            Student = student;
         }
 
         public void GenerateStudentReport()
         {
             MarksReportGenerator marksReportGenerator = new(StudentId, ExamId);
-            RemarksReportGenerator remarksReportGenerator = new(StudentId, ExamId);
+            RemarksReportGenerator remarksReportGenerator = new(Student.Student.StudentId, Student.ExamId);
 
             PdfDocument marksReport = marksReportGenerator.GenerateReport();
             PdfDocument remarksReport = remarksReportGenerator.GenerateReport();

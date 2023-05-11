@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FluentNgo.Models
 {
@@ -13,7 +10,7 @@ namespace FluentNgo.Models
         public int ExamSubjectId { get; set; }
         public int ExamId { get; set; }
         public int SubjectId { get; set; }
-        public int? SubjectMarks { get; set; }
+        public float SubjectMarks { get; set; }
 
         //  View Only Properties
         public string? SubjectName { get; set; }

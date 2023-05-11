@@ -1,5 +1,7 @@
 ﻿using FluentNgo.Core;
 using FluentNgo.Models;
+using FluentNgo.Reports;
+using FluentNgo.Reports.Models;
 using FluentNgo.Views.Components;
 using System;
 using System.Collections.ObjectModel;
@@ -77,7 +79,9 @@ namespace FluentNgo.ViewModels
             }
 
             rootWindow.MainGrid.Effect = null;
+
         }
+
 
         public void RemoveStudent(Student student)
         {
@@ -121,6 +125,23 @@ namespace FluentNgo.ViewModels
             {
                 StudentsCollection.Filter = new System.Predicate<object>(FilterStudents);
             }
+        }
+
+        public void GenerateReport(Student student)
+        {
+            var reportForm = new ReportForm();
+            var rootWindow = (Views.Container)Window.GetWindow(Application.Current.MainWindow);
+            rootWindow.MainGrid.Effect = new BlurEffect();
+            reportForm.Owner = rootWindow;
+
+            if ((bool)reportForm.ShowDialog())
+            {
+                StudentReportObject obj = new(student, reportForm.ExamId);
+                StudentReport report = new(obj);
+                report.GenerateStudentReport();
+            }
+
+            rootWindow.MainGrid.Effect = null;
         }
 
         private bool FilterStudents(object stud)

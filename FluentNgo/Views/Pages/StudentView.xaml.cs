@@ -71,4 +71,10 @@ public partial class StudentView
     {
         StudentVM.FilterDataGrid(((TextBox)sender).Text);
     }
+
+    private void ReportButton_Click(object sender, RoutedEventArgs e)
+    {
+        Student student = (Student)((FrameworkElement)sender).DataContext;
+        StudentVM.GenerateReport(student);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using FluentNgo.Models;
 using FluentNgo.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -39,9 +40,12 @@ public partial class RemarkView
     {
         RemarksDG.Children.Clear();
 
+        if (StudentDD.SelectedItem == null)
+        {
+            return;
+        }
 
-
-        int? StudentID = (StudentDD.SelectedItem == null ? null : (Student)StudentDD.SelectedItem).StudentId;
+        int? StudentID = (StudentDD.SelectedItem as Student).StudentId;
 
         List<StudentRemarks> StudentRemarksList = new List<StudentRemarks>();
 
@@ -50,9 +54,7 @@ public partial class RemarkView
             StudentRemarksList = StudentRemarks.RemarksGetAllByStudentId((int)StudentID);
 
         }
-      
-
-
+        
         foreach (string category in RemarkVM.Category)
         {
             RowDefinition newRow = new RowDefinition();
@@ -184,10 +186,8 @@ public partial class RemarkView
     private void StudentDD_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         PopulateTable();
-
-
     }
-
+    
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         List<StudentRemarks> studentRemarks = new List<StudentRemarks>();
@@ -223,9 +223,12 @@ public partial class RemarkView
 
         }
 
-        StudentRemarks.RemarksSave(studentRemarks);
 
+        string message = "Something went wrong!";
 
+        if (StudentRemarks.RemarksSave(studentRemarks)) message = "Saved Succesfully!";
+
+        FeedbackSB.MessageQueue?.Enqueue(message, null, null, null, false, true, TimeSpan.FromSeconds(2));
     }
 
     private void RemarksClassDD_SelectionChanged(object sender, SelectionChangedEventArgs e)

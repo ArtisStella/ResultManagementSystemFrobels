@@ -107,5 +107,8 @@
 
             </Grid>
         </ui:Card>
+        <materialDesign:Snackbar
+              x:Name="FeedbackSB"
+              MessageQueue="{materialDesign:MessageQueue}" />
     </Grid>
 </ui:UiPage>
