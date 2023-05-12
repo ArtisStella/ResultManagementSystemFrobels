@@ -44,6 +44,12 @@ namespace FluentNgo.Reports
                     
                     if (subcategory != null) html += $"<tr><th class='sub-category' colspan='2'>{subcategory}</th></tr>";
 
+                    if (category == "General Remarks")
+                    {
+                        string generalRemark = remarks.FirstOrDefault()!.GeneralRemark.Replace("\n", "<br />");
+                        html += $"<tr><td>{generalRemark}</td></tr>";
+                        continue;
+                    }
                     foreach (StudentRemarks remark in remarks)
                     {
                         html += $"<tr><td>{remark.Remarks}</td><td><input type='checkbox'" + (remark.Achieved == 1 ? "checked":"") + "></td></tr>";

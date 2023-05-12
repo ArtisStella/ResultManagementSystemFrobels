@@ -126,7 +126,7 @@ namespace FluentNgo.Reports
                 exams = new() { "Third Formal", "Fourth Formal", "Annual Examination" };
             }
 
-            List<StudentMark> tempMark;
+            StudentMark? tempMark;
 
             List<string> subjects = new List<string>() { "English", "Mathematics", "Urdu", "Science", "Religious Studies", "Pakistan Studies", "Dars" };
             
@@ -143,23 +143,36 @@ namespace FluentNgo.Reports
             foreach (string subject in subjects)
             {
                 Marks = "";
+                float marksTotal = 0f;
+                float subjectTotal = 0f;
 
-                tempMark = studentMarks.Where(mark => mark.SubjectName == subject).ToList();
-                foreach (StudentMark mark in tempMark)
+                foreach (string exam in exams)
                 {
-                    _ = float.TryParse(mark.Marks, out float marks);
+                    tempMark = studentMarks.Where(mark => mark.SubjectName == subject && mark.ExamTypeName == exam).ToList().FirstOrDefault();
 
-                    MarksObtained += marks;
-                    TotalMarks += float.Parse(mark.SubjectMarks);
+                    if (tempMark != null)
+                    {
+                        _ = float.TryParse(tempMark.Marks, out float marks);
 
-                    decimal percentage = (decimal)(marks / float.Parse(mark.SubjectMarks) * 100);
-
-                    string grade = GetGradeForPercentage(percentage);
-
-                    Marks += $"<td>{mark.Marks}</td><td>{mark.SubjectMarks}</td><td>{percentage}</td><td>{grade}</td>";
+                        marksTotal += marks;
+                        subjectTotal += float.Parse(tempMark.SubjectMarks);
+                        Marks += $"<td>{tempMark.Marks}</td>";
+                    } else
+                    {
+                        Marks += "<td></td>";
+                    }
                 }
 
-                Marks = Marks == "" ? "<td></td><td></td><td></td><td></td>" : Marks;
+                if (exams.Count > 1) Marks += $"<td>{marksTotal}</td>";
+                
+                MarksObtained += marksTotal;
+                TotalMarks += subjectTotal;
+                    
+                decimal percentage = (decimal)(marksTotal / subjectTotal * 100);
+
+                string grade = GetGradeForPercentage(percentage);
+                
+                Marks += $"<td>{subjectTotal}</td><td>{percentage}</td><td>{grade}</td>";
 
                 html += $"<tr><th>{subject}</th>{Marks}</tr>";
             }

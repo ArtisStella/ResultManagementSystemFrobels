@@ -71,4 +71,10 @@ public partial class ExamView
     {
         ExamVM.FilterDataGrid(((TextBox)sender).Text);
     }
+
+    private void UnselectAllRows(object sender, MouseButtonEventArgs e)
+    {
+        ExamsDG.SelectedIndex = -1;
+        ExamVM.AnyRowSelected = false;
+    }
 }

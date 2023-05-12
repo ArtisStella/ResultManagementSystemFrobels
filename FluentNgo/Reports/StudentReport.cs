@@ -1,6 +1,7 @@
 ﻿using FluentNgo.Reports.Models;
 using SelectPdf;
 using System.Diagnostics;
+using System.Windows;
 
 namespace FluentNgo.Reports
 {
@@ -17,9 +18,24 @@ namespace FluentNgo.Reports
         {
             MarksReportGenerator marksReportGenerator = new(StudentObject);
             RemarksReportGenerator remarksReportGenerator = new(StudentObject.Student.StudentId, StudentObject.ExamId);
-
-            PdfDocument marksReport = marksReportGenerator.GenerateReport();
-            PdfDocument remarksReport = remarksReportGenerator.GenerateReport();
+            
+            PdfDocument marksReport = new();
+            try
+            {
+                marksReport = marksReportGenerator.GenerateReport();
+            } catch
+            {
+                MessageBox.Show("Could not generate marks report. Please check marks for student", "Error!");
+            }
+            PdfDocument remarksReport = new();
+            try
+            {
+                remarksReport = remarksReportGenerator.GenerateReport();
+            }
+            catch
+            {
+                MessageBox.Show("Could not generate remarks report. Please check remarks for student", "Error!");
+            }
 
             PdfDocument studentReport = new PdfDocument();
             foreach (PdfPage page in marksReport.Pages)

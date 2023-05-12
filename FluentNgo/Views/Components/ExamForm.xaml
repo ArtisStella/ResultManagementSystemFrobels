@@ -55,6 +55,7 @@
 
                 <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           Foreground="#FFFFFF"
+                          x:Name="ExamTypeDD"
                           materialDesign:HintAssist.Hint="Exam Type"
                           SelectionChanged="ExamType_SelectionChanged" 
                           ItemsSource="{ Binding ExamTypesList }"

@@ -45,9 +45,9 @@ public partial class RemarkView
             return;
         }
 
-        int? StudentID = (StudentDD.SelectedItem as Student).StudentId;
+        int? StudentID = (StudentDD.SelectedItem as Student)!.StudentId;
 
-        List<StudentRemarks> StudentRemarksList = new List<StudentRemarks>();
+        List<StudentRemarks> StudentRemarksList = new();
 
         if (StudentID != null)
         {
@@ -73,10 +73,49 @@ public partial class RemarkView
             };
 
             Grid.SetRow(cat, rowIndex);
-            Grid.SetColumn(cat, 1); // Set column index to 0
+            Grid.SetColumn(cat, 1);
 
             RemarksDG.Children.Add(cat);
 
+            if (category == "General Remarks")
+            {
+                newRow = new();
+                RemarksDG.RowDefinitions.Add(newRow);
+
+                Remark remark = RemarkVM.Remarks.FirstOrDefault(rem => rem.Category == category);
+                if (StudentRemarksList.Count > 0)
+                {
+                    remark.Remarks = StudentRemarksList.FirstOrDefault(rem => rem.RemarkId == 108).GeneralRemark;
+                }
+
+                rowIndex = RemarksDG.RowDefinitions.IndexOf(newRow);
+
+                TextBlock remId = new TextBlock();
+                remId.Text = remark.RemarkId.ToString();
+
+                Grid.SetRow(remId, rowIndex);
+                Grid.SetColumn(remId, 0);
+
+                TextBox rem = new()
+                {
+                    Text = remark.Remarks,
+                    FontSize = 14,
+                    Margin = new Thickness(16, 8, 16, 8),
+                    AcceptsReturn = true,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                    TextWrapping = TextWrapping.Wrap,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                Grid.SetRow(rem, rowIndex);
+                Grid.SetColumn(rem, 1);
+
+                RemarksDG.Children.Add(remId);
+                RemarksDG.Children.Add(rem);
+
+
+                continue;
+            }
 
             foreach (string subcategory in RemarkVM.SubCategory)
             {
@@ -119,47 +158,10 @@ public partial class RemarkView
                         int Checked = 0;
                         if (StudentRemarksList.Count > 0)
                         {
-
                             Checked = StudentRemarksList.Where(x => x.RemarkId == remark.RemarkId).FirstOrDefault().Achieved;
-
                         }
 
-                        newRow = new RowDefinition();
-
-                        RemarksDG.RowDefinitions.Add(newRow);
-
-                        rowIndex = RemarksDG.RowDefinitions.IndexOf(newRow);
-
-                        TextBlock remId = new TextBlock();
-                        remId.Text = remark.RemarkId.ToString();
-
-                        Grid.SetRow(remId, rowIndex);
-                        Grid.SetColumn(remId, 0);
-
-
-                        TextBlock rem = new()
-                        {
-                            Text = remark.Remarks,
-                            FontSize = 14,
-                            Margin = new Thickness(16, 8, 16, 8),
-                            VerticalAlignment = VerticalAlignment.Center
-                        };
-
-                        Grid.SetRow(rem, rowIndex);
-                        Grid.SetColumn(rem, 1);
-
-                        CheckBox cb = new()
-                        {
-                            IsChecked = Checked == 1 ? true : false,
-                            HorizontalAlignment = HorizontalAlignment.Center
-                        };
-                        Grid.SetRow(cb, rowIndex);
-                        Grid.SetColumn(cb, 2);
-
-
-                        RemarksDG.Children.Add(remId);
-                        RemarksDG.Children.Add(rem);
-                        RemarksDG.Children.Add(cb);
+                        AddRemark(remark, Checked);
 
                     }
                 }
@@ -167,7 +169,46 @@ public partial class RemarkView
         }
     }
 
+    private void AddRemark(Remark remark, int Checked)
+    {
+        RowDefinition newRow = new RowDefinition();
 
+        RemarksDG.RowDefinitions.Add(newRow);
+
+        int rowIndex = RemarksDG.RowDefinitions.IndexOf(newRow);
+
+        TextBlock remId = new TextBlock();
+        remId.Text = remark.RemarkId.ToString();
+
+        Grid.SetRow(remId, rowIndex);
+        Grid.SetColumn(remId, 0);
+
+
+        TextBlock rem = new()
+        {
+            Text = remark.Remarks,
+            FontSize = 14,
+            Margin = new Thickness(16, 8, 16, 8),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        Grid.SetRow(rem, rowIndex);
+        Grid.SetColumn(rem, 1);
+        
+        CheckBox cb = new()
+        {
+            IsChecked = Checked == 1,
+            HorizontalAlignment = HorizontalAlignment.Center
+        };
+        Grid.SetRow(cb, rowIndex);
+        Grid.SetColumn(cb, 2);
+
+
+        RemarksDG.Children.Add(remId);
+        RemarksDG.Children.Add(rem);
+        RemarksDG.Children.Add(cb);
+        
+    }
 
     private void RemarksDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -196,6 +237,8 @@ public partial class RemarkView
 
         for (int row = 0; row < RemarksDG.Children.Count; row ++)
         {
+            StudentRemarks stdRemark;
+
             TextBlock? idTextBlock = (TextBlock?)RemarksDG.Children
                 .Cast<UIElement>()
                 .FirstOrDefault(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == 0);
@@ -203,9 +246,22 @@ public partial class RemarkView
             if (idTextBlock == null) continue;
 
             string remarkIdStr = idTextBlock!.Text;
-            int remarkId = 0;
-            int.TryParse(remarkIdStr, out remarkId);
+            _ = int.TryParse(remarkIdStr, out int remarkId);
 
+            int StudentId = (int)StudentDD.SelectedValue;
+
+            if (remarkId == 108)
+            {
+                TextBox? textbox = (TextBox?)RemarksDG.Children
+                    .Cast<UIElement>()
+                    .FirstOrDefault(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == 1);
+
+                stdRemark = new() { StudentId = StudentId, RemarkId = remarkId, GeneralRemark = textbox.Text };
+
+                studentRemarks.Add(stdRemark);
+
+                continue;
+            }
 
             CheckBox? checkbox = (CheckBox?)RemarksDG.Children
                 .Cast<UIElement>()
@@ -213,11 +269,9 @@ public partial class RemarkView
 
             bool isChecked = checkbox!.IsChecked.HasValue && checkbox.IsChecked.Value;
 
-            int StudentId = (int)StudentDD.SelectedValue;
-
             int achieved = isChecked ? 1 : 0;
 
-            StudentRemarks stdRemark = new StudentRemarks() { StudentId = StudentId, RemarkId = remarkId, Achieved = achieved };
+            stdRemark = new() { StudentId = StudentId, RemarkId = remarkId, Achieved = achieved };
 
             studentRemarks.Add(stdRemark);
 

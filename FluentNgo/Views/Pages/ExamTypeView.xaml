@@ -23,7 +23,7 @@
         </Style>
     </ui:UiPage.Resources>
 
-    <Grid>
+    <Grid Focusable="True" MouseDown="UnselectAllRows">
         <ui:Card VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0">
             <Grid>
                 <Grid.RowDefinitions>

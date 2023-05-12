@@ -36,4 +36,9 @@ public partial class ExamTypeView
         ExamTypeVM.Add();
     }
 
+    private void UnselectAllRows(object sender, MouseButtonEventArgs e)
+    {
+        ExamtypeDG.SelectedIndex = -1;
+        ExamTypeVM.AnyRowSelected = false;
+    }
 }

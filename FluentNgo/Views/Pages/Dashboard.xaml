@@ -13,7 +13,5 @@
 
     <Grid>
         <TextBlock FontSize="16" Text="Result Managment System " />
-
-        <Button Content="Report!" Click="Button_Click"/>
     </Grid>
 </ui:UiPage>

@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using FluentNgo.Controls;
 using System;
+using System.Windows.Input;
 
 namespace FluentNgo.Views.Pages;
 
@@ -40,13 +41,13 @@ public partial class MarksView
 
         DataGridTextColumn col = new DataGridTextColumn() { Header = "GR No", IsReadOnly = true, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding("GR No") };
         MarksDG.Columns.Add(col);
-        col = new DataGridTextColumn() { Header = "Student Name", IsReadOnly = true, CanUserResize = false, Width = new DataGridLength(1, DataGridLengthUnitType.Star), Binding = new Binding("Student Name") };
+        col = new DataGridTextColumn() { Header = "Student Name", IsReadOnly = true, CanUserResize = false, Width = new DataGridLength(3, DataGridLengthUnitType.Star), Binding = new Binding("Student Name") };
         MarksDG.Columns.Add(col);
 
         foreach (ExamSubjects subject in subjects)
         {
             //col = new DataGridTextColumn() { Header = subject.SubjectName, CanUserResize = false, Width = DataGridLength.Auto, Binding = new Binding(subject.SubjectName) };
-            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName, subject.SubjectName, (float)subject.SubjectMarks);
+            DataGridTemplateColumn subCol = new NumericColumnGenerator().GenerateNumericColumn(subject.SubjectName!, subject.SubjectName!, (float)subject.SubjectMarks, new DataGridLength(1, DataGridLengthUnitType.Star));
             MarksDG.Columns.Add(subCol);
         }
     }
@@ -83,5 +84,10 @@ public partial class MarksView
         SectionDD.SelectedIndex = -1;
 
         MarksVM.ClearMarks();
+    }
+
+    private void UnselectAllRows(object sender, MouseButtonEventArgs e)
+    {
+        MarksDG.SelectedIndex = -1;
     }
 }

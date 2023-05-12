@@ -23,10 +23,14 @@ namespace FluentNgo.Views.Components
             DataContext = this;
         }
 
-        public ExamForm(Exam stud)
+        public ExamForm(Exam _exam)
         {
+            exam = _exam;
+            ExamTypesList = ExamType.ExamTypesGetAll();
+
             InitializeComponent();
-            exam = stud;
+
+            ExamTypeDD.SelectedValue = exam.ExamTypeId;
             DataContext = this;
         }
 

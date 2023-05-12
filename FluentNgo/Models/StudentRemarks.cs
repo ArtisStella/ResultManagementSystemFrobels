@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FluentNgo.Models
 {
@@ -15,7 +12,7 @@ namespace FluentNgo.Models
         public int RemarkId { get; set; }
         public int Achieved { get; set; }
         public int ExamId { get; set; }
-
+        public string GeneralRemark { get; set; }
 
         //  View Only Properties
         public string Remarks { get; set; }
@@ -29,7 +26,10 @@ namespace FluentNgo.Models
             Connection.Open();
             try
             {
-                    Connection.Execute("INSERT INTO StudentRemarks (StudentId, RemarkId, Achieved) VALUES (@StudentId, @RemarkId, @Achieved)",remarks);
+                string queryDelete = "DELETE FROM StudentRemarks WHERE StudentId = @Id";
+                string queryInsert = "INSERT INTO StudentRemarks (StudentId, RemarkId, Achieved, GeneralRemark) VALUES (@StudentId, @RemarkId, @Achieved, @GeneralRemark)";
+                Connection.Execute(queryDelete, new { Id = remarks[0].StudentId });
+                Connection.Execute(queryInsert, remarks);
 
                 return true;
             }

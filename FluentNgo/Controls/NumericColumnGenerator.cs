@@ -1,10 +1,4 @@
-﻿using FluentNgo.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows;
@@ -16,15 +10,16 @@ namespace FluentNgo.Controls
     {
         public float MaxValue { get; set; }
 
-        public DataGridTemplateColumn GenerateNumericColumn(string header, string BindingPath, float maxValue)
+        public DataGridTemplateColumn GenerateNumericColumn(string header, string BindingPath, float maxValue, DataGridLength? width = null)
         {
             MaxValue = maxValue;
 
-            var column = new DataGridTemplateColumn();
-            
-            column.Header = header;
-            column.CanUserResize = false;
-            column.Width = DataGridLength.Auto;
+            DataGridTemplateColumn column = new()
+            {
+                Header = header,
+                CanUserResize = false,
+                Width = width == null ? DataGridLength.Auto : (DataGridLength)width
+            };
 
             var template = new DataTemplate();
             var textBoxFactory = new FrameworkElementFactory(typeof(TextBox));

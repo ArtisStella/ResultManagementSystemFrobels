@@ -49,7 +49,6 @@ public partial class StudentView
             DataGrid dg = (DataGrid)sender;
             StudentVM.AnyRowSelected = dg.SelectedItems.Count > 0;
         }
-
     }
 
     private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -76,5 +75,11 @@ public partial class StudentView
     {
         Student student = (Student)((FrameworkElement)sender).DataContext;
         StudentVM.GenerateReport(student);
+    }
+
+    private void UnselectAllRows(object sender, MouseButtonEventArgs e)
+    {
+        StudentsDG.SelectedIndex = -1;
+        StudentVM.AnyRowSelected = false;
     }
 }

@@ -90,6 +90,7 @@
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
                           CanUserReorderColumns="False"
+                          KeyboardNavigation.TabNavigation="Cycle"
                           MouseLeftButtonDown="ExamSubjectsDG_MouseLeftButtonDown"
                           SelectionChanged="ExamSubjectsDG_SelectionChanged">
 
@@ -97,6 +98,8 @@
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
                             <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="IsTabStop" Value="False" />
+                            <Setter Property="Focusable" Value="False" />
                         </Style>
                     </DataGrid.CellStyle>
 

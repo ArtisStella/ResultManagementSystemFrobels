@@ -19,6 +19,8 @@ namespace FluentNgo.Models
         //  View Only Properties
         public string SubjectName { get; set; }
         public string SubjectMarks { get; set; }
+        public string ExamTypeName { get; set; }
+
 
         public static List<StudentMark> StudentMarksGetAllByExamId(int examId)
         {
@@ -70,7 +72,7 @@ namespace FluentNgo.Models
             try
             {
                 string query = "" +
-                    "SELECT 	t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks " +
+                    "SELECT 	t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks, et.ExamTypeName " +
                     "FROM 	StudentMark t " +
                     "JOIN 	Subject s ON s.SubjectId = t.SubjectId " +
                     "JOIN 	ExamSubjects es ON es.ExamId = t.ExamId AND es.SubjectId = s.SubjectId " +
