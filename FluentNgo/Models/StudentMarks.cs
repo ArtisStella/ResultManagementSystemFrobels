@@ -63,14 +63,22 @@ namespace FluentNgo.Models
             }
         }
 
-        public static List<StudentMark> StudentMarksGetAllByExamAndStudentId(int studentId, int examId)
+        public static List<StudentMark> StudentMarksGetAllByExamAndStudentId(int studentId, int examId, string examType)
         {
             var Connection = new SQLiteConnection(App.ConnectionString);
             Connection.Open();
             try
             {
-                string query = "SELECT t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks FROM StudentMark t JOIN Subject s ON s.SubjectId = t.SubjectId JOIN ExamSubjects es on es.ExamId = t.ExamId AND es.SubjectId = s.SubjectId WHERE t.StudentId = @studentId AND t.ExamId = @examId";
-                var output = Connection.Query<StudentMark>(query, new { studentId, examId });
+                string query = "" +
+                    "SELECT 	t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks " +
+                    "FROM 	StudentMark t " +
+                    "JOIN 	Subject s ON s.SubjectId = t.SubjectId " +
+                    "JOIN 	ExamSubjects es ON es.ExamId = t.ExamId AND es.SubjectId = s.SubjectId " +
+                    "JOIN	Exam e ON e.ExamId = t.ExamId " +
+                    "JOIN 	Exam eo ON eo.AcademicYear = e.AcademicYear " +
+                    "JOIN 	ExamType et ON et.ExamTypeId = eo.ExamTypeId " +
+                    "WHERE 	t.StudentId = @studentId AND t.ExamId = @examId AND et.ExamTypeName = @examType";
+                var output = Connection.Query<StudentMark>(query, new { studentId, examId, examType });
                 return output.ToList();
             }
             catch (Exception ex)

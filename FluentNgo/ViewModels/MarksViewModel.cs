@@ -91,16 +91,9 @@ namespace FluentNgo.ViewModels
                 foreach (DataColumn col in MarksTable.Columns)
                 {
                     int? subjectId = Subjects.Where(sub => sub.SubjectName == col.ColumnName).FirstOrDefault()?.SubjectId;
-                    string marks;
-                    try
-                    {
-                        marks = row[col.ColumnName].ToString()!;
-                    } catch
-                    {
-                        marks = "0.00";
-                    }
+                    string marks = row[col.ColumnName].ToString()!;
 
-                    if (subjectId == 0 || !subjectId.HasValue || marks == "0.00") continue;
+                    if (subjectId == 0 || !subjectId.HasValue || marks == "") continue;
 
                     StudentMark studentMark = new StudentMark();
                     studentMark.ExamId = examId;

@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <Content Include="Data\MainDatabase.db">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

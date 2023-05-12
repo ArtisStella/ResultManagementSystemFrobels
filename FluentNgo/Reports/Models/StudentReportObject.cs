@@ -13,11 +13,5 @@ namespace FluentNgo.Reports.Models
         public int ExamId { get; set; }
         public string DaysAttended { get; set; }
         public string TotalDays { get; set; }
-
-        public StudentReportObject(Student student, int examId)
-        {
-            Student = student;
-            ExamId = examId;
-        }
     }
 }

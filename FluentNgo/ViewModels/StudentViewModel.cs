@@ -136,7 +136,7 @@ namespace FluentNgo.ViewModels
 
             if ((bool)reportForm.ShowDialog())
             {
-                StudentReportObject obj = new(student, reportForm.ExamId);
+                StudentReportObject obj = new() { Student = student, ExamId = reportForm.ExamId, TotalDays = reportForm.TotalDays, DaysAttended = reportForm.DaysAttended };
                 StudentReport report = new(obj);
                 report.GenerateStudentReport();
             }

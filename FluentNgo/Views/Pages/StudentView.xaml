@@ -128,12 +128,14 @@
                                             CanUserResize="False"
                                             Binding="{Binding Section}"/>
 
-                        <DataGridTemplateColumn Header="Report">
+                        <DataGridTemplateColumn Header="Report" CanUserResize="False" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Report" 
-                                            FontSize="12"
-                                            Click="ReportButton_Click"/>
+                                    <ui:Button x:Name="RefreshButton" 
+                                        Height="32" Width="32" 
+                                        Margin="8 0 0 0" Padding="0"
+                                        Icon="Print16"
+                                        Click="ReportButton_Click" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

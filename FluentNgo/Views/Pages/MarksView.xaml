@@ -54,8 +54,8 @@
                                 materialDesign:HintAssist.Hint="Exam"
                                 SelectionChanged="Exam_SelectionChanged"
                                 ItemsSource="{Binding ExamList}"
-                                MaxWidth="240"
-                                MinWidth="240"
+                                MaxWidth="200"
+                                MinWidth="200"
                                 DisplayMemberPath="ExamName"
                                 SelectedValuePath="ExamId"
                                 />

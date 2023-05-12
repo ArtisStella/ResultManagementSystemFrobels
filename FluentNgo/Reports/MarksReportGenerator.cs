@@ -1,5 +1,7 @@
 ﻿using FluentNgo.Models;
+using FluentNgo.Reports.Models;
 using SelectPdf;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,44 +11,42 @@ namespace FluentNgo.Reports
 {
     public class MarksReportGenerator
     {
-        private int StudentId { get; set; }
-        private int ExamId { get; set; } 
+        private StudentReportObject StudentObject { get; set; }
         public ExamType Type { get; set; }
 
-
-        private Dictionary<float, string> gradeMapping = new()
+        private Dictionary<decimal, string> GradeMap = new()
         {
-            { 90.0f, "A+" },
-            { 80.0f, "A" },
-            { 70.0f, "B+" },
-            { 60.0f, "B" },
-            { 55.0f, "C+" }
+            { 90.0m, "A+" },
+            { 80.0m, "A" },
+            { 70.0m, "B+" },
+            { 60.0m, "B" },
+            { 55.0m, "C+" }
         };
 
         private float MarksObtained;
         private float TotalMarks;
 
-        public MarksReportGenerator(int studentId, int examId)
-        {
-            StudentId = studentId;
-            ExamId = examId;
 
-            Type = ExamType.ExamTypeGetByExamId(ExamId);
+        public MarksReportGenerator(StudentReportObject studObject)
+        {
+            StudentObject = studObject;
+
+            Type = ExamType.ExamTypeGetByExamId(StudentObject.ExamId);
         }
 
         public string GetHtmlForReport()
         {
-            Student student = Student.StudentGetById(StudentId);
+            Student student = StudentObject.Student;
 
             //  Report Data
-            string reportType = Type.ExamTypeName + "Report";
+            string reportType = Type.ExamTypeName + " Report";
             string academicYear = "Year 2023-2024";
             string? StudentName = student.StudentName;
             int GRNo = student.GRNo;
             string ClassSection = $"{student.ClassName} - {student.Section}";
-            string AttendancePercent = "100.0";
-            string SemesterDays = "90";
-            string DaysAttended = "90";
+            string SemesterDays = StudentObject.TotalDays;
+            string DaysAttended = StudentObject.DaysAttended;
+            decimal AttendancePercent = Math.Round(((decimal)int.Parse(DaysAttended) / int.Parse(SemesterDays) * 100), 2);
 
             string PreviousTerm = "1st Term";
             bool PreviousTermCleared = true;
@@ -70,7 +70,8 @@ namespace FluentNgo.Reports
             html += GetTableHtml();
 
 
-            float TotalPercentage = MarksObtained / TotalMarks * 100;
+            decimal TotalPercentage = Math.Round((decimal)(MarksObtained / TotalMarks * 100), 2);
+            
             string Grade = GetGradeForPercentage(TotalPercentage);
 
             //  Percentage Summary
@@ -119,15 +120,26 @@ namespace FluentNgo.Reports
 
         private string GetTBodyHtml()
         {
-            List<StudentMark> studentMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentId, ExamId);
+            List<string> exams = new() { "First Formal" };
+            if (Type.ExamTypeName == "Annual Examination")
+            {
+                exams = new() { "Third Formal", "Fourth Formal", "Annual Examination" };
+            }
+
             List<StudentMark> tempMark;
 
             List<string> subjects = new List<string>() { "English", "Mathematics", "Urdu", "Science", "Religious Studies", "Pakistan Studies", "Dars" };
+            
+            List<StudentMark> studentMarks = new();
 
             string Marks = "";
             string html = "<tbody>";
 
-
+            foreach (string exam in exams)
+            {
+                studentMarks = studentMarks.Concat(StudentMark.StudentMarksGetAllByExamAndStudentId(StudentObject.Student.StudentId, StudentObject.ExamId, exam)).ToList();
+            }
+            
             foreach (string subject in subjects)
             {
                 Marks = "";
@@ -135,10 +147,12 @@ namespace FluentNgo.Reports
                 tempMark = studentMarks.Where(mark => mark.SubjectName == subject).ToList();
                 foreach (StudentMark mark in tempMark)
                 {
-                    MarksObtained += mark.Marks;
+                    _ = float.TryParse(mark.Marks, out float marks);
+
+                    MarksObtained += marks;
                     TotalMarks += float.Parse(mark.SubjectMarks);
 
-                    float percentage = mark.Marks / float.Parse(mark.SubjectMarks) * 100;
+                    decimal percentage = (decimal)(marks / float.Parse(mark.SubjectMarks) * 100);
 
                     string grade = GetGradeForPercentage(percentage);
 
@@ -155,9 +169,9 @@ namespace FluentNgo.Reports
             return html;
         }
 
-        private string GetGradeForPercentage(float percentage)
+        private string GetGradeForPercentage(decimal percentage)
         {
-            foreach (var item in gradeMapping)
+            foreach (var item in GradeMap)
             {
                 if (percentage >= item.Key)
                 {
@@ -166,6 +180,7 @@ namespace FluentNgo.Reports
             }
             return "F";
         }
+
         public PdfDocument GenerateReport()
         {
             HtmlToPdf converter = new();
