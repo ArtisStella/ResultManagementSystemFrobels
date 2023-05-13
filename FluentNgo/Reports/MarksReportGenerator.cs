@@ -132,12 +132,20 @@ namespace FluentNgo.Reports
 
             string Marks = "";
             string html = "<tbody>";
-
+            string totalFooter = "<tr><td>Total</td>";
             foreach (string exam in exams)
             {
-                studentMarks = studentMarks.Concat(StudentMark.StudentMarksGetAllByExamAndStudentId(StudentObject.Student.StudentId, StudentObject.ExamId, exam)).ToList();
+                var examMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentObject.Student.StudentId, StudentObject.ExamId, exam);
+                studentMarks = studentMarks.Concat(examMarks).ToList();
+                float sum = 0;
+                foreach (var obj in examMarks)
+                {
+                    if (float.TryParse(obj.Marks, out float value)) sum += value;
+                }
+                totalFooter += $"<td>{sum}</td>";
             }
             
+
             foreach (string subject in subjects)
             {
                 Marks = "";
@@ -174,6 +182,9 @@ namespace FluentNgo.Reports
 
                 html += $"<tr><th>{subject}</th>{Marks}</tr>";
             }
+
+            if (exams.Count > 1) totalFooter += $"<td>{MarksObtained}</td>";
+            totalFooter = "<td></td><td></td><td></td></tr>";
 
             html += "</tbody>";
 
