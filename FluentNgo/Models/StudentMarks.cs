@@ -72,14 +72,15 @@ namespace FluentNgo.Models
             try
             {
                 string query = "" +
-                    "SELECT 	t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks, et.ExamTypeName " +
-                    "FROM 	StudentMark t " +
+                    "SELECT t.ExamId, t.StudentId, t.SubjectId, s.SubjectName, t.Marks, es.SubjectMarks, et.ExamTypeName " +
+                    "FROM   Exam e " +
+                    "JOIN   Exam eo on eo.AcademicYear = e.AcademicYear " +
+                    "JOIN   ExamType et on et.ExamTypeId = eo.ExamTypeId " +
+                    "JOIN 	StudentMark t ON t.ExamId = eo.ExamId " +
                     "JOIN 	Subject s ON s.SubjectId = t.SubjectId " +
                     "JOIN 	ExamSubjects es ON es.ExamId = t.ExamId AND es.SubjectId = s.SubjectId " +
-                    "JOIN	Exam e ON e.ExamId = t.ExamId " +
-                    "JOIN 	Exam eo ON eo.AcademicYear = e.AcademicYear " +
-                    "JOIN 	ExamType et ON et.ExamTypeId = eo.ExamTypeId " +
-                    "WHERE 	t.StudentId = @studentId AND t.ExamId = @examId AND et.ExamTypeName = @examType";
+                    "WHERE	t.StudentId = @studentId AND e.ExamId = @examId AND et.ExamTypeName = @examType";
+
                 var output = Connection.Query<StudentMark>(query, new { studentId, examId, examType });
                 return output.ToList();
             }

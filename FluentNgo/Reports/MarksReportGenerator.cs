@@ -48,8 +48,6 @@ namespace FluentNgo.Reports
             string DaysAttended = StudentObject.DaysAttended;
             decimal AttendancePercent = Math.Round(((decimal)int.Parse(DaysAttended) / int.Parse(SemesterDays) * 100), 2);
 
-            string PreviousTerm = "1st Term";
-            bool PreviousTermCleared = true;
 
             //  Starting
             string html = "<html lang='en'><head><style>body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }.container { padding: 32px; background-color: white; }.container header { text-align: center; }.studentInfo table { width: 100%; } .studentInfo table th{ text-align: left; } .resultTable { margin: 2rem 0; }.resultTable table { width: 100%; border-collapse: collapse; }.resultTable table th,.resultTable table td { border: 1px solid gray; padding: 8px; }.reportSummary { margin: 0 64px; align-items: center; margin-bottom: 16px; border: 1px solid gray; }.reportSummary.percentage, .reportSummary.prevTerm { display: flex; flex-wrap: wrap; }.reportSummary.percentage .grid-item { border: 1px solid gray; } .reportSummary.legend table { width: 100%; }.reportSummary .grid-item { padding: 8px; text-align: center; }.reportSummary label { font-weight: bold; }.reportSummary .clear-box { width: 24px; height: 24px; margin: 0 16px; } .reportEnd { margin: 32px 0; }</style><title>Test Report</title></head><body><div class='container'>";
@@ -77,8 +75,8 @@ namespace FluentNgo.Reports
             //  Percentage Summary
             html += $"<div class='reportSummary percentage'><label style='flex-basis: 25%' class='grid-item'>Percentage</label><span style='flex-basis: 50%' class='grid-item'>{TotalPercentage}%</span><label style='flex-grow: 1' class='grid-item'>Grade</label><span style='flex-grow: 1' class='grid-item'>{Grade}</span></div>";
 
-            //  Previous Term
-            html += $"<div class='reportSummary prevTerm'><label style='flex-basis: 25%' class='grid-item'>{PreviousTerm}</label><span style='flex-grow: 1' class='grid-item'>Cleared</span><input type='checkbox' " + (PreviousTermCleared ? "checked" : "") + " class='clear-box'/><span style='flex-grow: 1' class='grid-item'>Not Cleared</span><input type='checkbox' " + (PreviousTermCleared ? "" : "checked") + " class='clear-box'/></div>";
+            //  Clear
+            html += $"<div class='reportSummary prevTerm'><label style='flex-basis: 25%' class='grid-item'>{Type.ExamTypeName}</label><span style='flex-grow: 1' class='grid-item'>Cleared</span><input type='checkbox' " + (TotalPercentage > 55m ? "checked" : "") + " class='clear-box'/><span style='flex-grow: 1' class='grid-item'>Not Cleared</span><input type='checkbox' " + (TotalPercentage < 55m ? "checked" : "") + " class='clear-box'/></div>";
 
             //  Legend
             html += "<hr class='reportEnd'/><div class='reportSummary legend'><table><tbody><tr><td class='grid-item'>A+ = 90% - 100%</td><td class='grid-item'>B+ = 70% - 79.99%</td><td class='grid-item'>C+ = 55% - 59.99%</td></tr><tr><td class='grid-item'>A  = 80% - 89.99%</td><td class='grid-item'>B  = 60% - 69.99%</td><td class='grid-item'>Fail = Below 55%</td></tr></tbody></table></div>";
@@ -168,8 +166,8 @@ namespace FluentNgo.Reports
                 MarksObtained += marksTotal;
                 TotalMarks += subjectTotal;
                     
-                decimal percentage = (decimal)(marksTotal / subjectTotal * 100);
-
+                decimal percentage = (decimal)Math.Round((marksTotal / subjectTotal * 100), 2);
+                
                 string grade = GetGradeForPercentage(percentage);
                 
                 Marks += $"<td>{subjectTotal}</td><td>{percentage}</td><td>{grade}</td>";
