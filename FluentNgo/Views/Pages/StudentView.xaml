@@ -1,12 +1,12 @@
 ﻿<ui:UiPage
-    x:Class="FluentNgo.Views.Pages.StudentView"
+    x:Class="TFSResult.Views.Pages.StudentView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:FluentNgo.Views.Pages"
+    xmlns:local="clr-namespace:TFSResult.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:viewModel="clr-namespace:FluentNgo.ViewModels"
+    xmlns:viewModel="clr-namespace:TFSResult.ViewModels"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     Title="StudentView"
     mc:Ignorable="d">   

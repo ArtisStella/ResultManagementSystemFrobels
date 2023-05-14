@@ -1,12 +1,12 @@
-﻿using FluentNgo.Models;
-using FluentNgo.ViewModels;
+﻿using TFSResult.Models;
+using TFSResult.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace FluentNgo.Views.Pages;
+namespace TFSResult.Views.Pages;
 
 public partial class ExamTypeView
 {

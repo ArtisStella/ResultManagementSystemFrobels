@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows;
 using System.Text.RegularExpressions;
 
-namespace FluentNgo.Controls
+namespace TFSResult.Controls
 {
     class NumericColumnGenerator
     {

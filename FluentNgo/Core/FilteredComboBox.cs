@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace FluentNgo.Core
+namespace TFSResult.Core
 {
     public class FilteredComboBox : ComboBox
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System;
 
-namespace FluentNgo.Models
+namespace TFSResult.Models
 {
     public class Student
     {

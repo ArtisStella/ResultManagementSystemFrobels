@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows;
-using FluentNgo.Models;
-using FluentNgo.ViewModels;
+using TFSResult.Models;
+using TFSResult.ViewModels;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
 
-namespace FluentNgo.Views.Pages
+namespace TFSResult.Views.Pages
 {
     /// <summary>
     /// Interaction logic for ExamSubjectsView.xaml

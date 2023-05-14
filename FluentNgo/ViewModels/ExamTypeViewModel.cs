@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media.Effects;
 using System.Windows;
-using FluentNgo.Core;
-using FluentNgo.Models;
-using FluentNgo.Views.Components;
+using TFSResult.Core;
+using TFSResult.Models;
+using TFSResult.Views.Components;
 
-namespace FluentNgo.ViewModels
+namespace TFSResult.ViewModels
 {
     public class ExamTypeViewModel : ObservableObject
     {

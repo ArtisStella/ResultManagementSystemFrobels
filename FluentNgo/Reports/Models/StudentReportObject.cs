@@ -1,11 +1,11 @@
-﻿using FluentNgo.Models;
+﻿using TFSResult.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentNgo.Reports.Models
+namespace TFSResult.Reports.Models
 {
     public class StudentReportObject
     {

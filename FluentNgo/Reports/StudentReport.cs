@@ -1,9 +1,9 @@
-﻿using FluentNgo.Reports.Models;
+﻿using TFSResult.Reports.Models;
 using SelectPdf;
 using System.Diagnostics;
 using System.Windows;
 
-namespace FluentNgo.Reports
+namespace TFSResult.Reports
 {
     public class StudentReport
     {

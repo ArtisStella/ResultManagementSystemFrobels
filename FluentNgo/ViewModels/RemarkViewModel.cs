@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
-using FluentNgo.Core;
-using FluentNgo.Models;
+using TFSResult.Core;
+using TFSResult.Models;
 
 
-namespace FluentNgo.ViewModels
+namespace TFSResult.ViewModels
 {
     public class RemarkViewModel : ObservableObject
     {

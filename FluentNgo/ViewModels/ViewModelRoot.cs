@@ -1,11 +1,11 @@
-﻿using FluentNgo.Core;
+﻿using TFSResult.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentNgo.ViewModels
+namespace TFSResult.ViewModels
 {
     public class ViewModelRoot : ObservableObject
     {

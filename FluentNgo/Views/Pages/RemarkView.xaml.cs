@@ -1,5 +1,5 @@
-﻿using FluentNgo.Models;
-using FluentNgo.ViewModels;
+﻿using TFSResult.Models;
+using TFSResult.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace FluentNgo.Views.Pages;
+namespace TFSResult.Views.Pages;
 
 public partial class RemarkView
 {

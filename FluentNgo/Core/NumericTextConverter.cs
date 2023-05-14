@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace FluentNgo.Core
+namespace TFSResult.Core
 {
     public class NumericTextConverter : IValueConverter
     {

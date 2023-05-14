@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Linq;
 
-namespace FluentNgo.Models
+namespace TFSResult.Models
 {
     public class Exam
     {
@@ -35,6 +36,27 @@ namespace FluentNgo.Models
             {
                 // MessageBox.Show(ex.ToString());
                 return new List<Exam>();
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        public static Exam ExamGetById(int Id)
+        {
+            var Connection = new SQLiteConnection(App.ConnectionString);
+            Connection.Open();
+            try
+            {
+                var output = Connection.Query<Exam>("SELECT t.ExamId, t.ExamTypeId, t.AcademicYear, t.StartingDate, t.EndingDate FROM Exam t WHERE t.ExamId = @Id", new { Id });
+
+                return output.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                // MessageBox.Show(ex.ToString());
+                return new();
             }
             finally
             {

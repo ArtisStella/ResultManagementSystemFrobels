@@ -1,7 +1,7 @@
-﻿using FluentNgo.Models;
+﻿using TFSResult.Models;
 using System.IO;
 
-namespace FluentNgo.Reports
+namespace TFSResult.Reports
 {
     public class TestReportGenerator
     {

@@ -36,7 +36,7 @@
 			border-bottom: 1px darkgray solid;
 	    }
 
-		tr td:not(:first-child) {
+		.mainTable tr td:not(:first-child) {
 			width:100px;
 			text-align: center;
 		}
@@ -58,13 +58,23 @@
 			text-align: left;
 			/* font-size: 16px; */
 		}
+
+		.signatureSection {
+			margin-top: 16px;
+		}
+
+		.signatureSection table td {
+			padding-top: 64px;
+		}
+
+
 	</style>
 </head>
 <body>
 	<div class="container">
 		<header><h2 style="margin-top: 8px;">Remarks</h2></header>
 		
-		<table style="page-break-after: always;">
+		<table class="mainTable" style="page-break-after: always;">
 			<thead>
 				<tr>
 					<th class="category" colspan="2">Work Habit</th>
@@ -148,6 +158,31 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<div class="signatureSection">
+			<table>
+				<tbody>
+					<tr>
+						<td style="border: none;"></td>
+						<td style="width: 150px;">Teacher's Signature</td>
+						<td style="width: 150px;">Hello World!</td>
+						<td style="border: none;"></td>
+						<td style="width: 150px;">Head's Signature</td>
+						<td style="width: 150px;">Hello World!</td>
+						<td style="border: none;"></td>
+					</tr>
+					<tr>
+						<td style="border: none;"></td>
+						<td style="width: 150px;">Date Issued</td>
+						<td style="width: 150px;">14-05-2023</td>
+						<td style="border: none;"></td>
+						<td style="width: 150px;">Parent's Signature</td>
+						<td style="width: 150px;">Hello World!</td>
+						<td style="border: none;"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 </html>

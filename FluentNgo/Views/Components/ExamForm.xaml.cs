@@ -1,10 +1,10 @@
-﻿using FluentNgo.Models;
+﻿using TFSResult.Models;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace FluentNgo.Views.Components
+namespace TFSResult.Views.Components
 {
     /// <summary>
     /// Interaction logic for ExamForm.xaml

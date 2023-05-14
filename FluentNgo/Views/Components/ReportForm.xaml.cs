@@ -1,9 +1,9 @@
-﻿using FluentNgo.Models;
+﻿using TFSResult.Models;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FluentNgo.Views.Components
+namespace TFSResult.Views.Components
 {
     public partial class ReportForm : Window
     {

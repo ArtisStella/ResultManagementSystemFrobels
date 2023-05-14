@@ -1,13 +1,11 @@
-﻿using FluentNgo.Models;
-using FluentNgo.Reports.Models;
+﻿using TFSResult.Models;
+using TFSResult.Reports.Models;
 using SelectPdf;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 
-namespace FluentNgo.Reports
+namespace TFSResult.Reports
 {
     public class MarksReportGenerator
     {
@@ -37,10 +35,11 @@ namespace FluentNgo.Reports
         public string GetHtmlForReport()
         {
             Student student = StudentObject.Student;
+            Exam exam = Exam.ExamGetById(StudentObject.ExamId);
 
             //  Report Data
             string reportType = Type.ExamTypeName + " Report";
-            string academicYear = "Year 2023-2024";
+            string academicYear = "Year " + exam.AcademicYear;
             string? StudentName = student.StudentName;
             int GRNo = student.GRNo;
             string ClassSection = $"{student.ClassName} - {student.Section}";
@@ -100,8 +99,8 @@ namespace FluentNgo.Reports
             if (Type.ExamTypeName == "Second Formal") ExamHeaders = "<th>2nd Formal</th>";
             if (Type.ExamTypeName == "Mid Term") ExamHeaders = "<th>Mid Terms</th>";
             if (Type.ExamTypeName == "Annual Examination") {
-                ExamCount = 4;
-                ExamHeaders = "<th>3rd Formal</th><th>4th Formal</th><th>Annual</th><th>Total</th>"; 
+                ExamCount = 3;
+                ExamHeaders = "<th>Formal</th><th>Annual</th><th>Total</th>"; 
             }
 
 
@@ -132,17 +131,9 @@ namespace FluentNgo.Reports
 
             string Marks = "";
             string html = "<tbody>";
-            string totalFooter = "<tr><td>Total</td>";
             foreach (string exam in exams)
             {
-                var examMarks = StudentMark.StudentMarksGetAllByExamAndStudentId(StudentObject.Student.StudentId, StudentObject.ExamId, exam);
-                studentMarks = studentMarks.Concat(examMarks).ToList();
-                float sum = 0;
-                foreach (var obj in examMarks)
-                {
-                    if (float.TryParse(obj.Marks, out float value)) sum += value;
-                }
-                totalFooter += $"<td>{sum}</td>";
+                studentMarks = studentMarks.Concat(StudentMark.StudentMarksGetAllByExamAndStudentId(StudentObject.Student.StudentId, StudentObject.ExamId, exam)).ToList();
             }
             
 
@@ -151,9 +142,12 @@ namespace FluentNgo.Reports
                 Marks = "";
                 float marksTotal = 0f;
                 float subjectTotal = 0f;
+                float formalMarks = 0f;
+                float otherMarks = 0f;
 
                 foreach (string exam in exams)
                 {
+
                     tempMark = studentMarks.Where(mark => mark.SubjectName == subject && mark.ExamTypeName == exam).ToList().FirstOrDefault();
 
                     if (tempMark != null)
@@ -162,15 +156,20 @@ namespace FluentNgo.Reports
 
                         marksTotal += marks;
                         subjectTotal += float.Parse(tempMark.SubjectMarks);
-                        Marks += $"<td>{tempMark.Marks}</td>";
-                    } else
-                    {
-                        Marks += "<td></td>";
+
+                        if (exam.Contains("Formal"))
+                        {
+                            formalMarks += marks;
+                        } else
+                        {
+                            otherMarks += marks;
+                        }
                     }
                 }
 
-                if (exams.Count > 1) Marks += $"<td>{marksTotal}</td>";
-                
+                if (exams.Count > 1) Marks += $"<td>{formalMarks}</td><td>{otherMarks}</td><td>{marksTotal}</td>";
+                // else Marks += $"<td>{formalMarks}</td><td>{marksTotal}</td>";
+
                 MarksObtained += marksTotal;
                 TotalMarks += subjectTotal;
                     
@@ -183,8 +182,7 @@ namespace FluentNgo.Reports
                 html += $"<tr><th>{subject}</th>{Marks}</tr>";
             }
 
-            if (exams.Count > 1) totalFooter += $"<td>{MarksObtained}</td>";
-            totalFooter = "<td></td><td></td><td></td></tr>";
+            if (Type.ExamTypeName == "Annual Examination" ) html += $"<td></td><td>50</td><td>50%</td><td>{MarksObtained}</td><td>{TotalMarks}</td><td></td><td></td>";
 
             html += "</tbody>";
 

@@ -1,6 +1,6 @@
-﻿using FluentNgo.Core;
-using FluentNgo.Models;
-using FluentNgo.Views.Components;
+﻿using TFSResult.Core;
+using TFSResult.Models;
+using TFSResult.Views.Components;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Effects;
 
-namespace FluentNgo.ViewModels
+namespace TFSResult.ViewModels
 {
     public class ExamViewModel : ObservableObject
     {

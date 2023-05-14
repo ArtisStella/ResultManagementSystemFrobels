@@ -1,9 +1,10 @@
-﻿using FluentNgo.Models;
+﻿using TFSResult.Models;
 using SelectPdf;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
-namespace FluentNgo.Reports
+namespace TFSResult.Reports
 {
     public class RemarksReportGenerator
     {
@@ -20,10 +21,10 @@ namespace FluentNgo.Reports
         {
             List<StudentRemarks> studentRemarks = StudentRemarks.RemarksGetAllByStudentAndExamId(StudentId, ExamId);
             List<string> Categories = studentRemarks.Select(rem => rem.Category).Distinct().ToList();
-
+            DateTime curDate = DateTime.Now;
 
             //  Starting
-            string html = "<html lang='en'><head><style>@page {size: letter;margin: 0.25in;margin-top: 0.5in;}body {    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;print-color-adjust: exact;}.container {    padding: 32px;    background-color: white;}.container header{    text-align: center;} table { border-collapse: collapse; width: 100%; } th, td { text-align: left; font-size: 14px; padding: 4px; padding-top: 8px; border-bottom: 1px darkgray solid; } tr td:not(:first-child) { width:100px; text-align: center; } input[type='checkbox'] {transform: scale(1.25); }th {background-color: #f2f2f2;text-align: center;}.category {/* font-size: 18px; */}.sub-category{text-align: left;/* font-size: 16px; */}</style><title>Test Report</title></head><body><div class='container'>";
+            string html = "<html lang='en'><head><style>@page {size: letter;margin: 0.25in;margin-top: 0.5in;}body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;print-color-adjust: exact;}.container {    padding: 32px;    background-color: white;}.container header{    text-align: center;} table { border-collapse: collapse; width: 100%; } th, td { text-align: left; font-size: 14px; padding: 4px; padding-top: 8px; border-bottom: 1px darkgray solid; } tr td:not(:first-child) { width:100px; text-align: center; } input[type='checkbox'] {transform: scale(1.25); }th {background-color: #f2f2f2;text-align: center;}.category {/* font-size: 18px; */}.sub-category{text-align: left;/* font-size: 16px; */} .signatureSection { margin-top: 16px; } .signatureSection table td { padding-top: 64px; }</style><title>Test Report</title></head><body><div class='container'>";
 
             //  Body
 
@@ -61,6 +62,9 @@ namespace FluentNgo.Reports
 
                 html += "</table>";
             }
+
+            //  Signatures
+            html += $"<div class='signatureSection'><table><tbody><tr><td style='border: none;'></td><td style='width: 150px;'>Teacher's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td><td style='width: 150px;'>Head's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td></tr><tr><td style='border: none;'></td><td style='width: 150px;'>Date Issued</td><td style='width: 150px;'>{curDate:dd-MM-yyyy}</td><td style='border: none;'></td><td style='width: 150px;'>Parent's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td></tr></tbody></table></div>";
 
             //  Closing
             html += "</div></body></html>";

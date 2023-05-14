@@ -1,11 +1,11 @@
-﻿using FluentNgo.Core;
-using FluentNgo.Models;
+﻿using TFSResult.Core;
+using TFSResult.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace FluentNgo.ViewModels
+namespace TFSResult.ViewModels
 {
     public class MarksViewModel : ObservableObject
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace FluentNgo.Core
+namespace TFSResult.Core
 {
     public class RelayCommand : ICommand
     {

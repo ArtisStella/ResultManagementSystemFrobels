@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
-namespace FluentNgo.Models
+namespace TFSResult.Models
 {
     public class StudentRemarks
     {

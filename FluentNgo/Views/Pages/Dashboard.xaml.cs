@@ -1,7 +1,7 @@
-﻿using FluentNgo.Core;
-using FluentNgo.Reports;
+﻿using TFSResult.Core;
+using TFSResult.Reports;
 
-namespace FluentNgo.Views.Pages;
+namespace TFSResult.Views.Pages;
 
 public partial class Dashboard
 {

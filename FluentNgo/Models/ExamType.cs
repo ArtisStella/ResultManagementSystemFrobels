@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FluentNgo.Models
+namespace TFSResult.Models
 {
     public class ExamType
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace FluentNgo.Core
+namespace TFSResult.Core
 {
     public class ObservableObject : INotifyPropertyChanged
     {

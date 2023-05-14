@@ -4,9 +4,9 @@ using System.Windows;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System;
-using FluentNgo.Core;
+using TFSResult.Core;
 
-namespace FluentNgo.Controls
+namespace TFSResult.Controls
 {
     public class DataGridNumericColumn : DataGridTemplateColumn
     {

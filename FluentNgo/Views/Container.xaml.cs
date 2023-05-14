@@ -1,7 +1,7 @@
 ﻿using System;
 using Wpf.Ui.Controls;
 
-namespace FluentNgo.Views
+namespace TFSResult.Views
 {
     /// <summary>
     /// Interaction logic for Container.xaml

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace FluentNgo.Core
+namespace TFSResult.Core
 {
     public static class FocusAdvancement
     {
