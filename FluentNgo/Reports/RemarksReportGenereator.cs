@@ -3,6 +3,7 @@ using SelectPdf;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.IO;
 
 namespace TFSResult.Reports
 {
@@ -24,7 +25,7 @@ namespace TFSResult.Reports
             DateTime curDate = DateTime.Now;
 
             //  Starting
-            string html = "<html lang='en'><head><style>@page {size: letter;margin: 0.25in;margin-top: 0.5in;}body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;print-color-adjust: exact;}.container {    padding: 32px;    background-color: white;}.container header{    text-align: center;} table { border-collapse: collapse; width: 100%; } th, td { text-align: left; font-size: 14px; padding: 4px; padding-top: 8px; border-bottom: 1px darkgray solid; } tr td:not(:first-child) { width:100px; text-align: center; } input[type='checkbox'] {transform: scale(1.25); }th {background-color: #f2f2f2;text-align: center;}.category {/* font-size: 18px; */}.sub-category{text-align: left;/* font-size: 16px; */} .signatureSection { margin-top: 16px; } .signatureSection table td { padding-top: 64px; }</style><title>Test Report</title></head><body><div class='container'>";
+            string html = "<html lang='en'><head><style>@page {size: letter;margin: 0.25in;margin-top: 0.5in;}body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;print-color-adjust: exact;}.container {    padding: 32px;    background-color: white;}.container header{    text-align: center;} table { border-collapse: collapse; width: 100%; } th, td { text-align: left; font-size: 12px; padding: 2px; padding-top: 4px; border-bottom: 1px darkgray solid; } tr td:not(:first-child) { width:100px; text-align: center; } input[type='checkbox'] {transform: scale(1.25); }th {background-color: #f2f2f2;text-align: center;}.category {/* font-size: 18px; */}.sub-category{text-align: left;/* font-size: 16px; */} .signatureSection { margin-top: 16px; } .signatureSection table td { padding-top: 64px; }</style><title>Test Report</title></head><body><div class='container'>";
 
             //  Body
 
@@ -81,6 +82,8 @@ namespace TFSResult.Reports
             converter.Options.MarginRight = 18;
             converter.Options.MarginTop = 36;
             converter.Options.MarginBottom = 36;
+
+            File.WriteAllText("Reports/testRemark.html", GetHtmlForRemarks());
 
             PdfDocument doc = converter.ConvertHtmlString(GetHtmlForRemarks());
 
