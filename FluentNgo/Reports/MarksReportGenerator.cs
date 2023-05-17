@@ -4,6 +4,7 @@ using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace TFSResult.Reports
 {
@@ -36,6 +37,8 @@ namespace TFSResult.Reports
         {
             Student student = StudentObject.Student;
             Exam exam = Exam.ExamGetById(StudentObject.ExamId);
+            TotalMarks = 0f;
+            MarksObtained = 0f;
 
             //  Report Data
             string reportType = Type.ExamTypeName + " Report";
@@ -49,7 +52,7 @@ namespace TFSResult.Reports
 
 
             //  Starting
-            string html = "<html lang='en'><head><style>body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }.container { padding: 32px; background-color: white; }.container header { text-align: center; }.studentInfo table { width: 100%; } .studentInfo table th{ text-align: left; } .resultTable { margin: 2rem 0; }.resultTable table { width: 100%; border-collapse: collapse; }.resultTable table th,.resultTable table td { border: 1px solid gray; padding: 8px; }.reportSummary { margin: 0 64px; align-items: center; margin-bottom: 16px; border: 1px solid gray; }.reportSummary.percentage, .reportSummary.prevTerm { display: flex; flex-wrap: wrap; }.reportSummary.percentage .grid-item { border: 1px solid gray; } .reportSummary.legend table { width: 100%; }.reportSummary .grid-item { padding: 8px; text-align: center; }.reportSummary label { font-weight: bold; }.reportSummary .clear-box { width: 24px; height: 24px; margin: 0 16px; } .reportEnd { margin: 32px 0; }</style><title>Test Report</title></head><body><div class='container'>";
+            string html = "<html lang='en'><head><style>body { }.container { padding: 32px; background-color: white; }.container header { text-align: center; }.studentInfo table { width: 100%; } .studentInfo table th { text-align: left; } .resultTable { margin: 2rem 0; }.resultTable table { width: 100%; border-collapse: collapse; } .resultTable th, .resultTable td { border: 1px solid gray; padding: 8px; }.reportSummary { margin: 0 64px; align-items: center; margin-bottom: 16px; border: 1px solid gray; }.reportSummary.percentage, .reportSummary.prevTerm { display: flex; flex-wrap: wrap; }.reportSummary.percentage .grid-item { border: 1px solid gray; } .reportSummary.legend table { width: 100%; }.reportSummary .grid-item { padding: 8px; text-align: center; }.reportSummary label { font-weight: bold; }.reportSummary .clear-box { width: 24px; height: 24px; margin: 0 16px; } .reportEnd { margin: 32px 0; }</style><title>Test Report</title></head><body><div class='container'>";
 
             //  Body
 
@@ -78,7 +81,7 @@ namespace TFSResult.Reports
             html += $"<div class='reportSummary prevTerm'><label style='flex-basis: 25%' class='grid-item'>{Type.ExamTypeName}</label><span style='flex-grow: 1' class='grid-item'>Cleared</span><input type='checkbox' " + (TotalPercentage > 55m ? "checked" : "") + " class='clear-box'/><span style='flex-grow: 1' class='grid-item'>Not Cleared</span><input type='checkbox' " + (TotalPercentage < 55m ? "checked" : "") + " class='clear-box'/></div>";
 
             //  Legend
-            html += "<hr class='reportEnd'/><div class='reportSummary legend'><table><tbody><tr><td class='grid-item'>A+ = 90% - 100%</td><td class='grid-item'>B+ = 70% - 79.99%</td><td class='grid-item'>C+ = 55% - 59.99%</td></tr><tr><td class='grid-item'>A  = 80% - 89.99%</td><td class='grid-item'>B  = 60% - 69.99%</td><td class='grid-item'>Fail = Below 55%</td></tr></tbody></table></div>";
+            html += "<hr class='reportEnd'/><h4 style='margin: 16px 64px;'>Grading Key</h4><div class='reportSummary legend'><table><tbody><tr><td class='grid-item'>A+ = 90% - 100%</td><td class='grid-item'>B+ = 70% - 79.99%</td><td class='grid-item'>C+ = 55% - 59.99%</td></tr><tr><td class='grid-item'>A  = 80% - 89.99%</td><td class='grid-item'>B  = 60% - 69.99%</td><td class='grid-item'>Fail = Below 55%</td></tr></tbody></table></div>";
 
 
             //  Closing
@@ -104,7 +107,7 @@ namespace TFSResult.Reports
             }
 
 
-            html += $"<thead><tr><th rowspan='2'>Subject</th><th colspan='{ExamCount}'>Acheived Marks</th><th rowspan='2'>Maximum Marks</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
+            html += $"<thead><tr><th rowspan='2'>Subject</th><th rowspan='2'>Max Marks</th><th colspan='{ExamCount}'>Marks Acheived</th><th rowspan='2'>Percentage (%)</th><th rowspan='2'>Grade</th></tr><tr>{ExamHeaders}</tr></thead>";
 
             //  TBody
             html += GetTBodyHtml();
@@ -167,6 +170,8 @@ namespace TFSResult.Reports
                     }
                 }
 
+                Marks += $"<td>{subjectTotal}</td>";
+
                 if (exams.Count > 1) Marks += $"<td>{formalMarks}</td><td>{otherMarks}</td><td>{marksTotal}</td>";
                 // else Marks += $"<td>{formalMarks}</td><td>{marksTotal}</td>";
 
@@ -177,12 +182,12 @@ namespace TFSResult.Reports
                 
                 string grade = GetGradeForPercentage(percentage);
                 
-                Marks += $"<td>{subjectTotal}</td><td>{percentage}</td><td>{grade}</td>";
+                Marks += $"<td>{percentage}</td><td>{grade}</td>";
 
                 html += $"<tr><th>{subject}</th>{Marks}</tr>";
             }
 
-            if (Type.ExamTypeName == "Annual Examination" ) html += $"<td></td><td>50</td><td>50%</td><td>{MarksObtained}</td><td>{TotalMarks}</td><td></td><td></td>";
+            if (Type.ExamTypeName == "Annual Examination" ) html += $"<td></td><td>{TotalMarks}</td><td>50</td><td>50%</td><td>{MarksObtained}</td><td></td><td></td>";
 
             html += "</tbody>";
 
@@ -206,6 +211,8 @@ namespace TFSResult.Reports
             HtmlToPdf converter = new();
 
             converter.Options.MarginTop = 100;
+            
+            File.WriteAllText("Reports/testRemark.html", GetHtmlForReport());
 
             PdfDocument doc = converter.ConvertHtmlString(GetHtmlForReport());
 
