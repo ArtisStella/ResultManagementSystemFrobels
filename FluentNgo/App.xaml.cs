@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TFSResult.Views.Components;
 
 namespace TFSResult
 {
@@ -19,7 +20,7 @@ namespace TFSResult
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainWindow = new Container();
+            MainWindow = new Auth();
 
             MainWindow.Show();
 

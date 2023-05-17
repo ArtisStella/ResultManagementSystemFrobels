@@ -1,0 +1,76 @@
+﻿<Window
+        x:Class="TFSResult.Views.Components.Auth"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TFSResult.Views.Components"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Auth"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseDown="SF_MouseDown"
+        Height="200" MinWidth="0" Width="300">
+
+    <Window.Resources>
+        <Style x:Key="FormTextBox" TargetType="TextBox" 
+               BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0 0 0 8"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="Transparent" BorderThickness="0" CornerRadius="10" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+
+        <Grid x:Name="RootGrid" Focusable="True">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="64"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock 
+                Grid.Row="0" Text="Login"
+                Foreground="#FFFFFFFF"
+                FontSize="24" Padding="26 20"/>
+
+            <ui:Button 
+                Grid.Row="0"
+                VerticalAlignment="Top" 
+                HorizontalAlignment="Right"
+                Cursor="Hand"
+                Icon="Dismiss24"
+                Margin="16"
+                FontSize="16"
+                Click="CloseWindow"/>
+
+            <StackPanel Grid.Row="1" Margin="26 0">
+
+                <ui:PasswordBox
+                  
+                    PlaceholderText="Password"
+                    
+                    Text="{Binding Password,Mode=TwoWay}"/>
+
+
+
+            </StackPanel>
+            
+            <ui:Button
+                Grid.Row="2"
+                FontSize="14"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Margin="24 0"
+                Content="Login"
+                Click="Login"/>
+        </Grid>
+    </Border>
+</Window>
