@@ -54,12 +54,9 @@
             <StackPanel Grid.Row="1" Margin="26 0">
 
                 <ui:PasswordBox
-                  
-                    PlaceholderText="Password"
-                    
-                    Text="{Binding Password,Mode=TwoWay}"/>
-
-
+                    x:Name="PasswordBox"
+                    KeyDown="PasswordBox_KeyDown"
+                    PlaceholderText="Password"/>
 
             </StackPanel>
             
@@ -70,7 +67,7 @@
                 HorizontalAlignment="Center"
                 Margin="24 0"
                 Content="Login"
-                Click="Login"/>
+                Click="Login_Click"/>
         </Grid>
     </Border>
 </Window>
