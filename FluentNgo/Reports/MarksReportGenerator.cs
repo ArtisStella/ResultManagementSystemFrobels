@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace TFSResult.Reports
 {
@@ -206,17 +207,22 @@ namespace TFSResult.Reports
             return "F";
         }
 
-        public PdfDocument GenerateReport()
+        public async Task<PdfDocument> GenerateReport()
         {
-            HtmlToPdf converter = new();
+            return (
+                await Task.Run(() =>
+                {
+                    HtmlToPdf converter = new();
 
-            converter.Options.MarginTop = 100;
-            
-            File.WriteAllText("Reports/testRemark.html", GetHtmlForReport());
+                    converter.Options.MarginTop = 100;
 
-            PdfDocument doc = converter.ConvertHtmlString(GetHtmlForReport());
+                    File.WriteAllText("Reports/testRemark.html", GetHtmlForReport());
 
-            return doc;
+                    PdfDocument doc = converter.ConvertHtmlString(GetHtmlForReport());
+
+                    return doc;
+                })
+            );
         }
     }
 }

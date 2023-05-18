@@ -31,6 +31,10 @@ public partial class MarksView
 
         ClassDD.IsEnabled = true;
         SectionDD.IsEnabled = true;
+
+        ClassDD.SelectedIndex = -1;
+        SectionDD.SelectedIndex = -1;
+        MarksVM.ClearMarks();
     }
 
 
@@ -78,6 +82,7 @@ public partial class MarksView
     private void ClassDD_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string ClassName = ClassDD.SelectedItem as string;
+
         MarksVM.LoadSections(ClassName);
         SectionDD.ItemsSource = MarksVM.StudentSection;
 

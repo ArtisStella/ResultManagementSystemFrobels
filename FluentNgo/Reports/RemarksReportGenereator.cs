@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace TFSResult.Reports
 {
@@ -73,21 +74,27 @@ namespace TFSResult.Reports
         }
 
 
-        public PdfDocument GenerateReport()
+        public async Task<PdfDocument> GenerateReport()
         {
-            HtmlToPdf converter = new();
+            return 
+            (
+                await Task.Run(() =>
+                {
+                    HtmlToPdf converter = new();
 
-            converter.Options.PdfPageSize = PdfPageSize.A4;
-            converter.Options.MarginLeft = 18;
-            converter.Options.MarginRight = 18;
-            converter.Options.MarginTop = 24;
-            converter.Options.MarginBottom = 24;
+                    converter.Options.PdfPageSize = PdfPageSize.A4;
+                    converter.Options.MarginLeft = 18;
+                    converter.Options.MarginRight = 18;
+                    converter.Options.MarginTop = 24;
+                    converter.Options.MarginBottom = 24;
 
-            // File.WriteAllText("Reports/testRemark.html", GetHtmlForRemarks());
+                    // File.WriteAllText("Reports/testRemark.html", GetHtmlForRemarks());
 
-            PdfDocument doc = converter.ConvertHtmlString(GetHtmlForRemarks());
+                    PdfDocument doc = converter.ConvertHtmlString(GetHtmlForRemarks());
 
-            return doc;
+                    return doc;
+                })
+            );
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TFSResult.Reports
             StudentObject = student;
         }
 
-        public void GenerateStudentReport()
+        public async void GenerateStudentReport()
         {
             MarksReportGenerator marksReportGenerator = new(StudentObject);
             RemarksReportGenerator remarksReportGenerator = new(StudentObject.Student.StudentId, StudentObject.ExamId);
@@ -22,7 +22,7 @@ namespace TFSResult.Reports
             PdfDocument marksReport = new();
             try
             {
-                marksReport = marksReportGenerator.GenerateReport();
+                marksReport = await marksReportGenerator.GenerateReport();
             } catch
             {
                 MessageBox.Show("Could not generate marks report. Please check marks for student", "Error!");
@@ -30,7 +30,7 @@ namespace TFSResult.Reports
             PdfDocument remarksReport = new();
             try
             {
-                remarksReport = remarksReportGenerator.GenerateReport();
+                remarksReport = await remarksReportGenerator.GenerateReport();
             }
             catch
             {
