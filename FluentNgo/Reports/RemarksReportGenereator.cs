@@ -66,7 +66,7 @@ namespace TFSResult.Reports
             }
 
             //  Signatures
-            html += $"<div class='signatureSection'><table><tbody><tr><td style='border: none;'></td><td style='width: 150px;'>Class Teacher's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td><td style='width: 150px;'>Head's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td></tr><tr><td style='border: none;'></td><td style='width: 150px;'>Issuance Date</td><td style='width: 150px;'>{curDate:dd-MM-yyyy}</td><td style='border: none;'></td><td style='width: 150px;'>Parent's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td></tr></tbody></table></div>";
+            html += $"<div class='signatureSection'><table><tbody><tr><td style='border: none;'></td><td style='width: 175px;'>Class Teacher's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td><td style='width: 175px;'>Head's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td></tr><tr><td style='border: none;'></td><td style='width: 175px;'>Issuance Date</td><td style='width: 150px;'>12-June-2023</td><td style='border: none;'></td><td style='width: 175px;'>Parent's Signature</td><td style='width: 150px;'></td><td style='border: none;'></td></tr></tbody></table></div>";
 
             //  Closing
             html += "</div></body></html>";

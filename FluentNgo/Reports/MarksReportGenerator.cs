@@ -12,7 +12,16 @@ namespace TFSResult.Reports
     public class MarksReportGenerator
     {
         private StudentReportObject StudentObject { get; set; }
-        public ExamType Type { get; set; }
+        public ExamType Type { get; set; }  
+
+        public string ReportType
+        {
+            get 
+            {
+                return Type.ExamTypeName!.Contains("Annual") ? "Annual Assessment" : Type.ExamTypeName; ; 
+            }
+        }
+
 
         private Dictionary<decimal, string> GradeMap = new()
         {
@@ -42,7 +51,7 @@ namespace TFSResult.Reports
             MarksObtained = 0f;
 
             //  Report Data
-            string reportType = Type.ExamTypeName + " Report";
+            string reportType = ReportType + " Report";
             string academicYear = "Year " + exam.AcademicYear;
             string? StudentName = student.StudentName;
             int GRNo = student.GRNo;
@@ -79,7 +88,7 @@ namespace TFSResult.Reports
             html += $"<div class='reportSummary percentage'><label style='flex-basis: 25%' class='grid-item'>Percentage</label><span style='flex-basis: 50%' class='grid-item'>{TotalPercentage}%</span><label style='flex-grow: 1' class='grid-item'>Grade</label><span style='flex-grow: 1' class='grid-item'>{Grade}</span></div>";
 
             //  Clear
-            html += $"<div class='reportSummary prevTerm'><label style='flex-basis: 25%' class='grid-item'>{Type.ExamTypeName}</label><span style='flex-grow: 1' class='grid-item'>Cleared</span><input type='checkbox' " + (TotalPercentage > 55m ? "checked" : "") + " class='clear-box'/><span style='flex-grow: 1' class='grid-item'>Not Cleared</span><input type='checkbox' " + (TotalPercentage < 55m ? "checked" : "") + " class='clear-box'/></div>";
+            html += $"<div class='reportSummary prevTerm'><label style='flex-basis: 25%' class='grid-item'>{ReportType}</label><span style='flex-grow: 1' class='grid-item'>Cleared</span><input type='checkbox' " + (TotalPercentage > 55m ? "checked" : "") + " class='clear-box'/><span style='flex-grow: 1' class='grid-item'>Not Cleared</span><input type='checkbox' " + (TotalPercentage < 55m ? "checked" : "") + " class='clear-box'/></div>";
 
             //  Legend
             html += "<hr class='reportEnd'/><h4 style='margin: 16px 64px;'>Grading Key</h4><div class='reportSummary legend'><table><tbody><tr><td class='grid-item'>A+ = 90% - 100%</td><td class='grid-item'>B+ = 70% - 79.99%</td><td class='grid-item'>C+ = 55% - 59.99%</td></tr><tr><td class='grid-item'>A  = 80% - 89.99%</td><td class='grid-item'>B  = 60% - 69.99%</td><td class='grid-item'>Fail = Below 55%</td></tr></tbody></table></div>";
@@ -216,7 +225,7 @@ namespace TFSResult.Reports
 
                     converter.Options.MarginTop = 100;
 
-                    File.WriteAllText("Reports/testRemark.html", GetHtmlForReport());
+                    // File.WriteAllText("Reports/TestMark.html", GetHtmlForReport());
 
                     PdfDocument doc = converter.ConvertHtmlString(GetHtmlForReport());
 
